@@ -55,7 +55,7 @@
     .btn.standoff { background: linear-gradient(135deg, #ff6b00, #ff9500); }
     .btn.pubg     { background: linear-gradient(135deg, #f5a623, #d97706); }
     .btn.brawl    { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
-    .btn.stars    { background: linear-gradient(135deg, #00b4d8, #0077b6); }
+    /* Стиль .btn.stars удален, так как кнопка больше не используется */
     .btn span { display: block; font-size: 11px; opacity: 0.85; margin-top: 3px; font-weight: 400; }
 
     .step { display: none; flex-direction: column; gap: 12px; }
@@ -130,9 +130,7 @@
         <button class="btn brawl" onclick="selectPlatform('Brawl Stars', 'Gems')">
             💎 Gems<span>Brawl Stars</span>
         </button>
-        <button class="btn stars" onclick="selectPlatform('Telegram', 'Stars')">
-            ⭐ Stars<span>Telegram</span>
-        </button>
+        <!-- Кнопка Stars Telegram удалена -->
     </div>
 
     <div class="step" id="idStep">
@@ -182,10 +180,8 @@
         } else if (platform === 'Brawl Stars') {
             hint = 'ID должен начинаться с # и содержать 9 символов (буквы и цифры)';
             placeholder = '#ABC123XYZ';
-        } else if (platform === 'Telegram') {
-            hint = 'Username должен начинаться с @';
-            placeholder = '@username';
         }
+        // Блок else if для Telegram удален
 
         document.getElementById('idHint').textContent = hint;
         document.getElementById('gameId').placeholder = placeholder;
@@ -205,9 +201,8 @@
             valid = /^\d{8,12}$/.test(id);
         } else if (selected.platform === 'Brawl Stars') {
             valid = /^#[A-Za-z0-9]{9}$/.test(id);
-        } else if (selected.platform === 'Telegram') {
-            valid = /^@[A-Za-z0-9_]+$/.test(id);
         }
+        // Проверка для Telegram удалена
 
         if (!valid) {
             err.textContent = 'Неверный формат ID. ' + document.getElementById('idHint').textContent;
