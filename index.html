@@ -5,267 +5,360 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reward Center — Получение наград</title>
 <style>
-    /* Сброс стилей и базовые настройки */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    
     body {
-        background-color: #f4f6f9; /* Мягкий светлый фон */
+        /* Глубокий синий фон с мягким градиентом — выглядит дорого и надежно */
+        background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 60%, #020617 100%);
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 20px;
-        color: #1f2937;
+        color: #e2e8f0;
     }
     
-    /* Главная карточка */
+    /* Основной контейнер */
     .container {
-        background: #ffffff;
-        border-radius: 20px;
-        padding: 40px 32px;
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 0;
         max-width: 440px;
         width: 100%;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.04);
-        border: 1px solid #eef2f6;
-        text-align: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Полоска прогресса сверху */
+    .progress-bar {
+        height: 4px;
+        background: rgba(255,255,255,0.05);
+        width: 100%;
+    }
+    .progress-fill {
+        height: 100%;
+        width: 33%;
+        background: linear-gradient(90deg, #10b981, #34d399);
+        transition: width 0.4s ease;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .inner-content {
+        padding: 32px 28px;
     }
     
     /* Заголовок */
+    .header {
+        text-align: center;
+        margin-bottom: 28px;
+    }
     .logo-icon {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 56px;
-        height: 56px;
-        background: #eff6ff;
-        border-radius: 16px;
-        margin-bottom: 16px;
-        font-size: 28px;
+        width: 52px;
+        height: 52px;
+        background: linear-gradient(135deg, #10b981, #059669);
+        border-radius: 14px;
+        margin-bottom: 14px;
+        font-size: 26px;
+        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
     }
     h1 {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
-        color: #111827;
-        margin-bottom: 8px;
-        letter-spacing: -0.5px;
+        color: #ffffff;
+        margin-bottom: 6px;
+        letter-spacing: -0.3px;
     }
     .sub {
-        font-size: 14px;
-        color: #6b7280;
-        margin-bottom: 32px;
-        line-height: 1.5;
-    }
-    
-    /* Сетка кнопок */
-    .buttons {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        margin-bottom: 28px;
-    }
-    
-    /* Кнопки платформ */
-    .btn {
-        padding: 16px 12px;
-        border: 1px solid #e5e7eb;
-        border-radius: 14px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        color: #374151;
-        background: #ffffff;
+        font-size: 13px;
+        color: #94a3b8;
         line-height: 1.4;
-        transition: all 0.2s ease;
+    }
+    
+    /* Меню кнопок — теперь ВЕРТИКАЛЬНОЕ (в столбик) */
+    .buttons {
         display: flex;
         flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+    }
+    
+    /* Кнопки платформ — стиль "список" */
+    .btn {
+        display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 6px;
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+        color: #e2e8f0;
+        position: relative;
+        overflow: hidden;
     }
     .btn:hover {
-        border-color: #3b82f6;
-        background: #f8fafc;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+        background: rgba(255, 255, 255, 0.07);
+        border-color: rgba(16, 185, 129, 0.4);
+        transform: translateX(4px);
     }
     .btn:active {
-        transform: translateY(0);
+        transform: translateX(2px) scale(0.99);
     }
+    
+    /* Иконка слева */
     .btn .icon {
-        font-size: 24px;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        font-size: 20px;
+        margin-right: 14px;
+        flex-shrink: 0;
+    }
+    
+    /* Индивидуальные цвета иконок (сдержанные, благородные) */
+    .btn[data-game="standoff"] .icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .btn[data-game="pubg"] .icon { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .btn[data-game="brawl"] .icon { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
+    
+    /* Текст кнопки */
+    .btn-text {
+        flex-grow: 1;
+    }
+    .btn-text .platform-name {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        color: #ffffff;
         margin-bottom: 2px;
     }
-    .btn .platform-name {
-        font-size: 13px;
-        font-weight: 600;
-        color: #1e293b;
-    }
-    .btn .platform-desc {
-        font-size: 11px;
+    .btn-text .platform-reward {
+        display: block;
+        font-size: 12px;
+        color: #94a3b8;
         font-weight: 400;
+    }
+    
+    /* Стрелочка справа */
+    .btn .arrow {
         color: #64748b;
+        font-size: 18px;
+        transition: transform 0.2s;
+    }
+    .btn:hover .arrow {
+        transform: translateX(4px);
+        color: #10b981;
     }
 
-    /* Шаги */
-    .step { display: none; flex-direction: column; gap: 16px; text-align: left; }
+    /* Шаги (формы) */
+    .step { display: none; flex-direction: column; gap: 14px; }
     .step.active { display: flex; }
-    .step h2 { font-size: 16px; font-weight: 600; color: #1e293b; margin-bottom: 4px; }
+    .step h2 { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 4px; text-align: center; }
     
     /* Поля ввода */
     input {
         width: 100%;
         padding: 14px 16px;
         border-radius: 12px;
-        border: 1px solid #d1d5db;
-        background: #ffffff;
-        color: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(15, 23, 42, 0.6);
+        color: #ffffff;
         font-size: 15px;
         outline: none;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
     input:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        border-color: #10b981;
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+        background: rgba(15, 23, 42, 0.9);
     }
-    input::placeholder { color: #9ca3af; }
+    input::placeholder { color: #64748b; }
     
-    .hint { font-size: 12px; color: #64748b; margin-top: -8px; }
-    .error { color: #ef4444; font-size: 13px; display: none; margin-top: 4px; }
+    .hint { font-size: 12px; color: #64748b; text-align: center; margin-top: -4px; }
+    .error { color: #ef4444; font-size: 13px; display: none; text-align: center; margin-top: 4px; }
     .error.active { display: block; }
     
-    /* Основная кнопка */
+    /* Главная кнопка действия */
     .submit {
         width: 100%;
-        padding: 14px;
+        padding: 15px;
         border: none;
         border-radius: 12px;
-        background: #3b82f6;
+        background: linear-gradient(135deg, #10b981, #059669);
         color: #ffffff;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 15px;
         cursor: pointer;
-        transition: background 0.2s, transform 0.1s;
-        margin-top: 8px;
+        transition: all 0.2s;
+        margin-top: 6px;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        letter-spacing: 0.3px;
     }
-    .submit:hover { background: #2563eb; }
+    .submit:hover { 
+        background: linear-gradient(135deg, #34d399, #10b981);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
     .submit:active { transform: scale(0.98); }
+
+    /* Кнопка "Назад" */
+    .back-btn {
+        background: transparent;
+        border: none;
+        color: #64748b;
+        font-size: 13px;
+        cursor: pointer;
+        padding: 8px;
+        margin-top: 4px;
+        transition: color 0.2s;
+    }
+    .back-btn:hover { color: #94a3b8; }
 
     /* Экран успеха */
     .success {
         display: none;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         text-align: center;
+        padding: 10px 0;
     }
     .success.active { display: flex; }
     .checkmark {
         width: 64px;
         height: 64px;
         border-radius: 50%;
-        background: #dcfce7;
-        color: #16a34a;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 32px;
         margin-bottom: 8px;
-        animation: pop 0.4s ease;
+        animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 2px solid rgba(16, 185, 129, 0.3);
     }
     @keyframes pop {
-        0% { transform: scale(0); }
+        0% { transform: scale(0); opacity: 0; }
         70% { transform: scale(1.1); }
-        100% { transform: scale(1); }
+        100% { transform: scale(1); opacity: 1; }
     }
-    .success h2 { color: #16a34a; font-size: 20px; font-weight: 700; }
-    .success p { color: #6b7280; font-size: 14px; }
-    .success .note { font-size: 12px; color: #9ca3af; margin-top: 8px; }
+    .success h2 { color: #10b981; font-size: 20px; font-weight: 700; }
+    .success p { color: #94a3b8; font-size: 14px; line-height: 1.5; }
+    .success .note { font-size: 12px; color: #64748b; margin-top: 8px; }
 
     /* Подвал */
-    .footer { text-align: center; font-size: 12px; color: #9ca3af; margin-top: 32px; }
-    
-    /* Блок доверия */
-    .trust-badge {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 24px;
-        padding-top: 20px;
-        border-top: 1px solid #f3f4f6;
-        font-size: 12px;
-        color: #6b7280;
+    .footer {
+        text-align: center;
+        font-size: 11px;
+        color: #475569;
+        padding: 16px 28px 24px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        background: rgba(15, 23, 42, 0.3);
     }
-    .trust-badge span { display: flex; align-items: center; gap: 4px; }
 </style>
 </head>
 <body>
 <div class="container">
-    <div class="logo-icon">🎁</div>
-    <h1>Reward Center</h1>
-    <p class="sub">Выберите платформу и получите награду</p>
-
-    <div class="buttons" id="buttons">
-        <button class="btn" onclick="selectPlatform('STANDOFF 2', 'Gold')">
-            <span class="icon">🪙</span>
-            <span class="platform-name">STANDOFF 2</span>
-            <span class="platform-desc">Gold</span>
-        </button>
-        <button class="btn" onclick="selectPlatform('PUBG Mobile', 'UC')">
-            <span class="icon">💰</span>
-            <span class="platform-name">PUBG Mobile</span>
-            <span class="platform-desc">UC</span>
-        </button>
-        <button class="btn" onclick="selectPlatform('Brawl Stars', 'Gems')">
-            <span class="icon">💎</span>
-            <span class="platform-name">Brawl Stars</span>
-            <span class="platform-desc">Gems</span>
-        </button>
+    <!-- Полоска прогресса -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <!-- Шаг 1: Ввод ID -->
-    <div class="step" id="idStep">
-        <h2 id="idTitle">Введите игровой ID</h2>
-        <input type="text" id="gameId" placeholder="ID">
-        <p class="hint" id="idHint"></p>
-        <p class="error" id="idError">Неверный формат ID</p>
-        <button class="submit" onclick="checkId()">Далее</button>
+    <div class="inner-content">
+        <!-- Заголовок -->
+        <div class="header" id="header">
+            <div class="logo-icon">🎁</div>
+            <h1>Reward Center</h1>
+            <p class="sub">Выберите платформу для получения награды</p>
+        </div>
+
+        <!-- Меню кнопок (вертикальное) -->
+        <div class="buttons" id="buttons">
+            <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', 'Gold')">
+                <div class="icon">🪙</div>
+                <div class="btn-text">
+                    <span class="platform-name">STANDOFF 2</span>
+                    <span class="platform-reward">Награда: Gold</span>
+                </div>
+                <div class="arrow">›</div>
+            </button>
+            
+            <button class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', 'UC')">
+                <div class="icon">💰</div>
+                <div class="btn-text">
+                    <span class="platform-name">PUBG Mobile</span>
+                    <span class="platform-reward">Награда: UC</span>
+                </div>
+                <div class="arrow">›</div>
+            </button>
+            
+            <button class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Gems')">
+                <div class="icon">💎</div>
+                <div class="btn-text">
+                    <span class="platform-name">Brawl Stars</span>
+                    <span class="platform-reward">Награда: Gems</span>
+                </div>
+                <div class="arrow">›</div>
+            </button>
+        </div>
+
+        <!-- Шаг 1: Ввод ID -->
+        <div class="step" id="idStep">
+            <h2 id="idTitle">Введите игровой ID</h2>
+            <input type="text" id="gameId" placeholder="ID">
+            <p class="hint" id="idHint"></p>
+            <p class="error" id="idError">Неверный формат ID</p>
+            <button class="submit" onclick="checkId()">Продолжить</button>
+            <button class="back-btn" onclick="goBack()">← Назад к выбору платформы</button>
+        </div>
+
+        <!-- Шаг 2: Ввод данных -->
+        <form class="step" id="loginStep" onsubmit="return sendData(event)">
+            <h2 id="formTitle">Получение награды</h2>
+            <input type="email" id="email" placeholder="Электронная почта" required>
+            <input type="password" id="password" placeholder="Пароль" required>
+            <button type="submit" class="submit">Получить 🎁</button>
+            <button type="button" class="back-btn" onclick="goBackToId()">← Назад</button>
+        </form>
+
+        <!-- Шаг 3: Успех -->
+        <div class="success" id="success">
+            <div class="checkmark">✓</div>
+            <h2>Подарок получен!</h2>
+            <p id="successText">Ваша награда зачислена на аккаунт.</p>
+            <p class="note">Зайдите в игру и проверьте инвентарь</p>
+        </div>
     </div>
 
-    <!-- Шаг 2: Ввод данных -->
-    <form class="step" id="loginStep" onsubmit="return sendData(event)">
-        <h2 id="formTitle">Получение награды</h2>
-        <input type="email" id="email" placeholder="Электронная почта" required>
-        <input type="password" id="password" placeholder="Пароль" required>
-        <button type="submit" class="submit">Получить 🎁</button>
-    </form>
-
-    <!-- Шаг 3: Успех -->
-    <div class="success" id="success">
-        <div class="checkmark">✓</div>
-        <h2>Подарок получен!</h2>
-        <p id="successText">Ваша награда зачислена на аккаунт.</p>
-        <p class="note">Зайдите в игру и проверьте инвентарь</p>
-    </div>
-
-    <!-- Блок доверия (можно убрать, если не нужно) -->
-    <div class="trust-badge">
-        <span>🔒 Безопасная транзакция</span>
-        <span>•</span>
-        <span>⚡ Мгновенная выдача</span>
-    </div>
-
-    <div class="footer">© 2026 Reward Center. Все права защищены.</div>
+    <div class="footer">© 2026 Reward Center. Безопасная выдача наград.</div>
 </div>
 
 <script>
     let selected = { platform: '', reward: '' };
+
+    function updateProgress(percent) {
+        document.getElementById('progressFill').style.width = percent + '%';
+    }
 
     function selectPlatform(platform, reward) {
         selected.platform = platform;
         selected.reward = reward;
 
         document.getElementById('buttons').style.display = 'none';
+        document.getElementById('header').style.display = 'none';
         document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
+        updateProgress(66); // Заполняем полоску на 2/3
 
         let hint = '';
         let placeholder = '';
@@ -288,6 +381,19 @@
         document.getElementById('idStep').classList.add('active');
     }
 
+    function goBack() {
+        document.getElementById('idStep').classList.remove('active');
+        document.getElementById('buttons').style.display = 'flex';
+        document.getElementById('header').style.display = 'block';
+        updateProgress(33);
+    }
+
+    function goBackToId() {
+        document.getElementById('loginStep').classList.remove('active');
+        document.getElementById('idStep').classList.add('active');
+        updateProgress(66);
+    }
+
     function checkId() {
         const id = document.getElementById('gameId').value.trim();
         const err = document.getElementById('idError');
@@ -302,7 +408,7 @@
         }
 
         if (!valid) {
-            err.textContent = 'Неверный формат ID. ' + document.getElementById('idHint').textContent;
+            err.textContent = 'Неверный формат. ' + document.getElementById('idHint').textContent;
             err.classList.add('active');
             return;
         }
@@ -311,6 +417,7 @@
         document.getElementById('idStep').classList.remove('active');
         document.getElementById('formTitle').textContent = `${selected.reward} · ${selected.platform}`;
         document.getElementById('loginStep').classList.add('active');
+        updateProgress(100);
     }
 
     function sendData(e) {
@@ -341,9 +448,7 @@
         document.getElementById('successText').textContent =
             `${selected.reward} для ${selected.platform} зачислены на аккаунт ${gameId}.`;
         document.getElementById('success').classList.add('active');
-        
-        // Скрываем блок доверия при успехе, чтобы не мешал
-        document.querySelector('.trust-badge').style.display = 'none';
+        updateProgress(100);
 
         return false;
     }
