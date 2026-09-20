@@ -387,7 +387,7 @@
             
             <div class="trust-counter">
                 <div class="dot"></div>
-                <span><span id="trustCount">0</span> наград выдано сегодня</span>
+                <span><span id="trustCount">13492</span> наград выдано сегодня</span>
             </div>
         </div>
 
@@ -455,32 +455,15 @@
 
 <script>
     let selected = { platform: '', reward: '' };
-    let currentCount = 0;
-    let targetCount = 0;
+    let currentCount = 13492;
+    let targetCount = 13492;
 
-    const BASE_COUNT = 13492;
-
-    // === Логика «живого» счетчика ===
-    function initCounter() {
-        let saved = parseInt(localStorage.getItem('rewardCounter') || '0');
-        
-        // Если первый заход или сохраненное значение меньше базового — ставим 13 492
-        if (saved === 0 || saved < BASE_COUNT) {
-            saved = BASE_COUNT;
-        }
-        
-        targetCount = saved;
-        currentCount = Math.max(0, saved - 20);
-        
-        localStorage.setItem('rewardCounter', targetCount);
-        animateCounterTo(targetCount);
-    }
-
+    // === Счетчик ===
     function animateCounterTo(target) {
         const el = document.getElementById('trustCount');
         const start = currentCount;
         const diff = target - start;
-        const duration = 1500;
+        const duration = 1200;
         const startTime = performance.now();
 
         function update(now) {
@@ -500,9 +483,8 @@
         requestAnimationFrame(update);
     }
 
-    function incrementCounter(amount = 1) {
+    function incrementCounter(amount) {
         targetCount += amount;
-        localStorage.setItem('rewardCounter', targetCount);
         animateCounterTo(targetCount);
     }
 
@@ -513,7 +495,7 @@
         setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    // === Имитация активности других пользователей ===
+    // === Имитация активности ===
     function simulateActivity() {
         const delay = 8000 + Math.random() * 15000;
         setTimeout(() => {
@@ -526,8 +508,20 @@
         }, delay);
     }
 
-    initCounter();
-    simulateActivity();
+    // Запускаем всё после загрузки DOM
+    window.addEventListener('DOMContentLoaded', function() {
+        // Стартуем с 13492
+        document.getElementById('trustCount').textContent = '13 492';
+        targetCount = 13492;
+        currentCount = 13492;
+        
+        // Небольшая анимация при загрузке (до 13495)
+        setTimeout(() => {
+            incrementCounter(3);
+        }, 500);
+        
+        simulateActivity();
+    });
 
     function updateProgress(percent) {
         document.getElementById('progressFill').style.width = percent + '%';
@@ -539,7 +533,7 @@
 
         document.getElementById('buttons').style.display = 'none';
         document.getElementById('header').style.display = 'none';
-        document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
+        document.getElementById('idTitle').textContent = 'Введите ID · ' + platform;
         updateProgress(66);
 
         let hint = '';
@@ -597,4 +591,8 @@
 
         if (selected.platform === 'STANDOFF 2') valid = /^\d{9}$/.test(id);
         else if (selected.platform === 'PUBG Mobile') valid = /^\d{8,12}$/.test(id);
-        else if
+        else if (selected.platform === 'Brawl Stars') valid = /^#[A-Za-z0-9]{9}$/.test(id);
+
+        if (!valid) {
+            err.textContent = 'Неверный формат. ' + document.getElementById('idHint').textContent;
+            er
