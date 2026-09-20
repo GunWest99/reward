@@ -32,6 +32,7 @@
         transition: box-shadow 0.5s ease, border-color 0.5s ease;
     }
 
+    /* === Подсветка контейнера в цвет выбранной игры === */
     .container.theme-standoff {
         border-color: rgba(245, 158, 11, 0.5);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 60px rgba(245, 158, 11, 0.25);
@@ -79,6 +80,7 @@
         box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
         transition: all 0.5s ease;
     }
+    /* Меняем цвет логотипа в зависимости от темы */
     .container.theme-standoff .logo-icon {
         background: linear-gradient(135deg, #f59e0b, #d97706);
         box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
@@ -126,7 +128,6 @@
         color: #e2e8f0;
         position: relative;
         overflow: hidden;
-        font-family: inherit;
     }
     .btn:hover {
         background: rgba(255, 255, 255, 0.07);
@@ -136,6 +137,7 @@
         transform: translateX(2px) scale(0.99);
     }
 
+    /* === Подсветка кнопки при выборе === */
     .btn.selected {
         background: rgba(16, 185, 129, 0.1);
         border-color: rgba(16, 185, 129, 0.5);
@@ -157,6 +159,7 @@
         box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
     }
 
+    /* === Аватарки игр === */
     .btn .avatar {
         width: 46px;
         height: 46px;
@@ -170,7 +173,6 @@
         background: rgba(15, 23, 42, 0.5);
         border: 1px solid rgba(255,255,255,0.08);
         transition: transform 0.25s ease, border-color 0.25s ease;
-        font-size: 22px;
     }
     .btn .avatar img {
         width: 100%;
@@ -256,7 +258,6 @@
         margin-top: 6px;
         box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         letter-spacing: 0.3px;
-        font-family: inherit;
     }
     .submit:hover { 
         background: linear-gradient(135deg, #34d399, #10b981);
@@ -264,17 +265,30 @@
     }
     .submit:active { transform: scale(0.98); }
 
+    /* Кнопка submit тоже подстраивается под тему */
     .container.theme-standoff .submit {
         background: linear-gradient(135deg, #f59e0b, #d97706);
         box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+    }
+    .container.theme-standoff .submit:hover {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
     }
     .container.theme-pubg .submit {
         background: linear-gradient(135deg, #ef4444, #b91c1c);
         box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
     }
+    .container.theme-pubg .submit:hover {
+        background: linear-gradient(135deg, #f87171, #ef4444);
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    }
     .container.theme-brawl .submit {
         background: linear-gradient(135deg, #8b5cf6, #6d28d9);
         box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
+    }
+    .container.theme-brawl .submit:hover {
+        background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
     }
 
     .back-btn {
@@ -286,7 +300,6 @@
         padding: 8px;
         margin-top: 4px;
         transition: color 0.2s;
-        font-family: inherit;
     }
     .back-btn:hover { color: #94a3b8; }
 
@@ -364,14 +377,14 @@
         font-size: 15px;
         flex-shrink: 0;
     }
-    .welcome .features .info {
-        color: #38bdf8;
+    .welcome .features .warn {
+        color: #f59e0b;
         font-size: 15px;
         flex-shrink: 0;
     }
-    .welcome .features .info-text {
-        color: #7dd3fc;
-        font-weight: 500;
+    .welcome .features .warn-text {
+        color: #fbbf24;
+        font-weight: 600;
     }
     .welcome .bottom-text {
         font-size: 12.5px;
@@ -404,7 +417,7 @@
             </div>
 
             <h2>Добро пожаловать в официальный центр выдачи наград</h2>
-            <p>Здесь вы можете <b style="color:#10b981;">выбрать награду</b> и получить бесплатную раздачу внутриигровой валюты: <b>Gold</b>, <b>UC</b> и <b>Brawl Pass +</b>.</p>
+            <p>Здесь вы можете <b style="color:#10b981;">выбрать награду</b> и получить бесплатную раздачу внутриигровой валюты: <b>Gold</b>, <b>UC</b> и <b>Brawl Pass +</b> — без покупок и без подписок.</p>
 
             <div class="features">
                 <div>
@@ -420,14 +433,14 @@
                     <span>Безопасно и без скрытых условий</span>
                 </div>
                 <div>
-                    <span class="info">ℹ️</span>
-                    <span class="info-text">Награда доступна лишь один раз</span>
+                    <span class="warn">⚠️</span>
+                    <span class="warn-text">Забрать награду можно только один раз</span>
                 </div>
             </div>
 
             <p class="bottom-text">Нажмите «Продолжить», чтобы выбрать свою награду.</p>
 
-            <button type="button" class="submit" onclick="showMain()">Продолжить</button>
+            <button class="submit" onclick="showMain()">Продолжить</button>
         </div>
 
         <!-- ЭКРАН 1: Главное меню -->
@@ -439,7 +452,7 @@
             </div>
 
             <div class="buttons" id="buttons">
-                <button type="button" class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', '1500 Gold', 'standoff')">
+                <button class="btn" data-game="standoff" onclick="selectPlatform('STANDOFF 2', '1500 Gold', 'standoff')">
                     <div class="avatar">
                         <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9c/Standoff_2_logo.png/180px-Standoff_2_logo.png" alt="Standoff 2" onerror="this.style.display='none'; this.parentElement.innerHTML='🪙';">
                     </div>
@@ -450,7 +463,7 @@
                     <div class="arrow">›</div>
                 </button>
                 
-                <button type="button" class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', '3600 UC', 'pubg')">
+                <button class="btn" data-game="pubg" onclick="selectPlatform('PUBG Mobile', '3600 UC', 'pubg')">
                     <div class="avatar">
                         <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9f/PUBG_Mobile_Logo.png/180px-PUBG_Mobile_Logo.png" alt="PUBG Mobile" onerror="this.style.display='none'; this.parentElement.innerHTML='💰';">
                     </div>
@@ -461,7 +474,7 @@
                     <div class="arrow">›</div>
                 </button>
                 
-                <button type="button" class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Brawl Pass +', 'brawl')">
+                <button class="btn" data-game="brawl" onclick="selectPlatform('Brawl Stars', 'Brawl Pass +', 'brawl')">
                     <div class="avatar">
                         <img src="https://upload.wikimedia.org/wikipedia/en/thumb/9/9c/Brawl_Stars_logo.png/180px-Brawl_Stars_logo.png" alt="Brawl Stars" onerror="this.style.display='none'; this.parentElement.innerHTML='💎';">
                     </div>
@@ -479,8 +492,8 @@
                 <input type="text" id="gameId" placeholder="ID">
                 <p class="hint" id="idHint"></p>
                 <p class="error" id="idError">Неверный формат ID</p>
-                <button type="button" class="submit" onclick="checkId()">Продолжить</button>
-                <button type="button" class="back-btn" onclick="goBack()">← Назад к выбору платформы</button>
+                <button class="submit" onclick="checkId()">Продолжить</button>
+                <button class="back-btn" onclick="goBack()">← Назад к выбору платформы</button>
             </div>
 
             <!-- Шаг 2: Ввод данных -->
@@ -506,30 +519,29 @@
 </div>
 
 <script>
-    var selected = { platform: '', reward: '', theme: '' };
+    let selected = { platform: '', reward: '', theme: '' };
 
     function updateProgress(percent) {
         document.getElementById('progressFill').style.width = percent + '%';
     }
 
+    // === Смена темы контейнера ===
     function setTheme(theme) {
-        var container = document.getElementById('mainContainer');
+        const container = document.getElementById('mainContainer');
         container.classList.remove('theme-standoff', 'theme-pubg', 'theme-brawl');
-        if (theme) {
-            container.classList.add('theme-' + theme);
-        }
+        if (theme) container.classList.add('theme-' + theme);
 
-        var fill = document.getElementById('progressFill');
-        if (theme === 'standoff') {
-            fill.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
-        } else if (theme === 'pubg') {
-            fill.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
-        } else if (theme === 'brawl') {
-            fill.style.background = 'linear-gradient(90deg, #8b5cf6, #a78bfa)';
-        } else {
-            fill.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
-        }
+        // Меняем цвет прогресс-бара под тему
+        const fill = document.getElementById('progressFill');
+        if (theme === 'standoff') fill.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+        else if (theme === 'pubg') fill.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+        else if (theme === 'brawl') fill.style.background = 'linear-gradient(90deg, #8b5cf6, #a78bfa)';
+        else fill.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
     }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        updateProgress(0);
+    });
 
     function showMain() {
         document.getElementById('welcomeStep').style.display = 'none';
@@ -542,38 +554,23 @@
         selected.reward = reward;
         selected.theme = theme;
 
-        // Снимаем подсветку со всех кнопок
-        var allBtns = document.querySelectorAll('.btn');
-        for (var i = 0; i < allBtns.length; i++) {
-            allBtns[i].classList.remove('selected');
-        }
-        // Подсвечиваем выбранную
-        var activeBtn = document.querySelector('.btn[data-game="' + theme + '"]');
+        // Подсвечиваем выбранную кнопку
+        document.querySelectorAll('.btn').forEach(b => b.classList.remove('selected'));
+        const activeBtn = document.querySelector(`.btn[data-game="${theme}"]`);
         if (activeBtn) activeBtn.classList.add('selected');
 
+        // Меняем тему контейнера
         setTheme(theme);
 
         document.getElementById('buttons').style.display = 'none';
         document.getElementById('header').style.display = 'none';
-        document.getElementById('idTitle').textContent = 'Введите ID · ' + platform;
+        document.getElementById('idTitle').textContent = `Введите ID · ${platform}`;
         updateProgress(66);
 
-        var hint = '';
-        var placeholder = '';
+        let hint = '';
+        let placeholder = '';
 
         if (platform === 'STANDOFF 2') {
             hint = 'ID должен состоять из 9 цифр';
             placeholder = '123456789';
-        } else if (platform === 'PUBG Mobile') {
-            hint = 'ID должен состоять из 8–12 цифр';
-            placeholder = '5123456789';
-        } else if (platform === 'Brawl Stars') {
-            hint = 'ID должен начинаться с # и содержать 9 символов';
-            placeholder = '#ABC123XYZ';
-        }
-
-        document.getElementById('idHint').textContent = hint;
-        document.getElementById('gameId').placeholder = placeholder;
-        document.getElementById('gameId').value = '';
-        document.getElementById('idError').classList.remove('active');
-        document.getElementById('idStep').c
+        } else if (platform
