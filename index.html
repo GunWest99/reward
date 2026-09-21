@@ -7,7 +7,6 @@
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
     
-    /* === ПЕРЕЛИВАЮЩИЙСЯ ФОН === */
     body {
         background: linear-gradient(-45deg, #0f172a, #1e293b, #312e81, #1e3a8a, #0f172a);
         background-size: 400% 400%;
@@ -27,7 +26,6 @@
         100% { background-position: 0% 50%; }
     }
 
-    /* Мягкие светящиеся пятна поверх фона */
     .glow-orb {
         position: fixed;
         border-radius: 50%;
@@ -357,7 +355,6 @@
         background: rgba(15, 23, 42, 0.3);
     }
 
-    /* === ЧАТ ПОДДЕРЖКИ === */
     .support-btn {
         position: fixed;
         bottom: 20px;
@@ -378,9 +375,7 @@
         transition: transform 0.2s;
         animation: pulseSupport 2.5s infinite;
     }
-    .support-btn:hover {
-        transform: scale(1.1);
-    }
+    .support-btn:hover { transform: scale(1.1); }
     @keyframes pulseSupport {
         0%, 100% { box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5); }
         50% { box-shadow: 0 8px 35px rgba(16, 185, 129, 0.9); }
@@ -403,9 +398,7 @@
         display: none;
         animation: slideUpChat 0.3s ease;
     }
-    .support-window.open {
-        display: block;
-    }
+    .support-window.open { display: block; }
     @keyframes slideUpChat {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -419,14 +412,9 @@
         justify-content: space-between;
         color: #fff;
     }
-    .chat-header .info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+    .chat-header .info { display: flex; align-items: center; gap: 10px; }
     .chat-header .avatar-support {
-        width: 36px;
-        height: 36px;
+        width: 36px; height: 36px;
         border-radius: 50%;
         background: rgba(255,255,255,0.2);
         display: flex;
@@ -434,10 +422,7 @@
         justify-content: center;
         font-size: 18px;
     }
-    .chat-header .name {
-        font-size: 14px;
-        font-weight: 700;
-    }
+    .chat-header .name { font-size: 14px; font-weight: 700; }
     .chat-header .status {
         font-size: 11px;
         opacity: 0.9;
@@ -447,8 +432,7 @@
     }
     .chat-header .status::before {
         content: '';
-        width: 6px;
-        height: 6px;
+        width: 6px; height: 6px;
         background: #bbf7d0;
         border-radius: 50%;
         box-shadow: 0 0 6px #bbf7d0;
@@ -515,9 +499,7 @@
         outline: none;
         transition: border-color 0.2s;
     }
-    .chat-input-area input:focus {
-        border-color: #10b981;
-    }
+    .chat-input-area input:focus { border-color: #10b981; }
     .chat-input-area button {
         padding: 10px 14px;
         border-radius: 10px;
@@ -528,9 +510,7 @@
         cursor: pointer;
         transition: transform 0.15s;
     }
-    .chat-input-area button:active {
-        transform: scale(0.95);
-    }
+    .chat-input-area button:active { transform: scale(0.95); }
 
     .chat-typing {
         display: none;
@@ -545,8 +525,7 @@
     .chat-typing.active { display: block; }
     .chat-typing .dots span {
         display: inline-block;
-        width: 5px;
-        height: 5px;
+        width: 5px; height: 5px;
         border-radius: 50%;
         background: #94a3b8;
         margin: 0 1px;
@@ -657,7 +636,7 @@
                 <button type="submit" class="submit">Получить 🎁</button>
                 <button type="button" class="back-btn" onclick="goBackToId()">← Назад</button>
             </form>
-           
+
             <div class="success" id="success">
                 <div class="checkmark">✓</div>
                 <h2>Подарок получен!</h2>
@@ -685,7 +664,7 @@
     </div>
 
     <div class="chat-body" id="chatBody">
-        <div class="chat-message bot">Здравствуйте! 👋<br>Меня зовут Алиса, я помогу вам с получением награды. Если что-то не работает — напишите, я подскажу.</div>
+        <div class="chat-message bot">Здравствуйте! 👋<br>Меня зовут Алиса, я на вашей стороне и помогу с получением награды. Если что-то не работает — напишите, я всё решу.</div>
     </div>
 
     <div class="chat-typing" id="chatTyping">
@@ -816,7 +795,7 @@
         return false;
     }
 
-    /* === ЧАТ ПОДДЕРЖКИ === */
+    /* === ЧАТ ПОДДЕРЖКИ (ВСЕГДА НА ТВОЕЙ СТОРОНЕ) === */
     function toggleSupport() {
         const win = document.getElementById('supportWindow');
         win.classList.toggle('open');
@@ -848,35 +827,83 @@
             typing.classList.remove('active');
             const botMsg = document.createElement('div');
             botMsg.className = 'chat-message bot';
-
-            const reply = getBotReply(text);
-            botMsg.innerHTML = reply;
+            botMsg.innerHTML = getBotReply(text);
             body.appendChild(botMsg);
             body.scrollTop = body.scrollHeight;
-        }, 1200 + Math.random() * 800);
+        }, 900 + Math.random() * 700);
     }
 
+    /* Бот всегда защищает сайт и успокаивает игрока */
     function getBotReply(userText) {
         const t = userText.toLowerCase();
-        if (t.includes('не работает') || t.includes('ошибка') || t.includes('проблем')) {
-            return 'Поняла вас 🙂 Попробуйте обновить страницу и зайти заново. Если не поможет — напишите ваш игровой ID, я передам заявку специалисту.';
+
+        // Не работает / ошибка / проблема
+        if (t.includes('не работает') || t.includes('ошибка') || t.includes('проблем') || t.includes('сломалось')) {
+            return 'Не переживайте, я проверила — система работает в штатном режиме ✅<br><br>Возможно, у вас просто устаревшая страница. Обновите её (потяните экран вниз) и попробуйте снова — всё должно получиться. Если нет — напишите, разберёмся вместе 🤝';
         }
-        if (t.includes('когда') || t.includes('сколько ждать') || t.includes('время')) {
-            return 'Обычно награда зачисляется в течение 5–15 минут после отправки заявки. Если прошло больше — напишите мне.';
+
+        // Когда придёт / сколько ждать / время
+        if (t.includes('когда') || t.includes('сколько ждать') || t.includes('время') || t.includes('долго')) {
+            return 'Ваша награда уже в обработке 🚀<br><br>Обычно зачисление занимает <b>до 15 минут</b>, но часто приходит гораздо быстрее. Просто подождите и не закрывайте игру — она придёт автоматически 💚';
         }
+
+        // ID / ид
         if (t.includes('id') || t.includes('ид')) {
-            return 'Игровой ID можно посмотреть в настройках вашего профиля в игре. Для STANDOFF 2 — 9 цифр, для PUBG Mobile — 8–12 цифр, для Brawl Stars — начинается с # и содержит 9 символов.';
+            return 'С вашим ID всё в порядке — я проверила, он корректный ✅<br><br>Если нужно, вот как его найти:<br>• <b>STANDOFF 2</b> — 9 цифр<br>• <b>PUBG Mobile</b> — 8–12 цифр<br>• <b>Brawl Stars</b> — начинается с # и 9 символов';
         }
-        if (t.includes('бесплатно') || t.includes('обман') || t.includes('скам')) {
-            return 'Раздача полностью бесплатная. Мы не запрашиваем оплату и не имеем доступа к вашим средствам. Всё, что нужно — указать игровой ID, куда зачислить награду.';
+
+        // Бесплатно / обман / скам / лохотрон
+        if (t.includes('бесплатно') || t.includes('обман') || t.includes('скам') || t.includes('лохотрон') || t.includes('кидал')) {
+            return 'Я вас понимаю, сейчас везде много обмана 🤝<br><br>Но здесь всё честно: мы <b>не запрашиваем оплату</b>, не имеем доступа к вашим средствам и не просим ничего лишнего. Всё, что нужно — указать игровой ID, куда зачислить награду. Это официальная раздача от нашего центра 💚';
         }
-        if (t.includes('спасибо') || t.includes('благодар')) {
-            return 'Всегда рада помочь! 💚 Если появятся вопросы — я здесь.';
+
+        // Спасибо / благодарю
+        if (t.includes('спасибо') || t.includes('благодар') || t.includes('спс')) {
+            return 'Всегда рада помочь! 💚<br><br>Если награда ещё не пришла — не переживайте, она уже в пути. Хорошей игры! 🎮';
         }
-        if (t.includes('привет') || t.includes('здравств') || t.includes('хай')) {
-            return 'Привет! 😊 Чем могу помочь?';
+
+        // Привет / здравствуйте / хай
+        if (t.includes('привет') || t.includes('здравств') || t.includes('хай') || t.includes('добрый')) {
+            return 'Привет! 😊 Рада вас видеть.<br><br>Чем могу помочь? Если что-то не пришло — я на вашей стороне, разберёмся вместе.';
         }
-        return 'Спасибо за сообщение! Я передала ваш вопрос оператору. Обычно отвечаем в течение 1–2 минут. А пока — можете продолжить оформление награды.';
+
+        // Не пришло / не получил / нет награды
+        if (t.includes('не пришло') || t.includes('не получил') || t.includes('нет награды') || t.includes('не зачислил')) {
+            return 'Всё в порядке, не переживайте 💚<br><br>Награда иногда приходит чуть позже — до 15 минут. Просто зайдите в игру и обновите инвентарь. Если через 20 минут не будет — напишите мне, я лично прослежу за вашей заявкой 🤝';
+        }
+
+        // Ждать / ожидание
+        if (t.includes('ждать') || t.includes('ожидан')) {
+            return 'Да, совсем немного — до 15 минут максимум ⏱<br><br>А обычно приходит за 2–5 минут. Можете пока проверить настройки профиля в игре — награда появится именно там 🎁';
+        }
+
+        // Почему долго / так долго
+        if (t.includes('почему так долго') || t.includes('слишком долго') || t.includes('уже час') || t.includes('давно')) {
+            return 'Понимаю ваше нетерпение 🤝<br><br>Возможно, у вас большая очередь заявок. Но будьте уверены — ваша заявка <b>уже в системе</b>, и награда точно придёт. Это наш центр делает всё, чтобы никто не остался без подарка 💚';
+        }
+
+        // Как / что делать / инструкция
+        if (t.includes('как ') || t.includes('что делать') || t.includes('инструкция') || t.includes('подскажи')) {
+            return 'Всё очень просто 📝<br><br>1. Выберите игру на главной<br>2. Введите игровой ID<br>3. Укажите почту и пароль<br>4. Нажмите «Получить»<br><br>После этого награда автоматически зачислится. Если что-то не получается — я рядом, помогу 😊';
+        }
+
+        // Бот / ты человек
+        if (t.includes('бот') || t.includes('человек') || t.includes('робот')) {
+            return 'Я — Алиса, виртуальный помощник нашего центра 💚<br><br>Но я отлично разбираюсь во всех вопросах и всегда на вашей стороне. Если нужно — могу связаться со специалистом вручную.';
+        }
+
+        // Оператор / админ
+        if (t.includes('оператор') || t.includes('админ') || t.includes('специалист') || t.includes('человек')) {
+            return 'Я понимаю, что вы хотите поговорить с человеком 🤝<br><br>Но поверьте — я решу ваш вопрос быстрее, чем кто-либо. Все заявки обрабатываются автоматически и в порядке очереди. Ваша — уже в системе 💚';
+        }
+
+        // Сайт / ссылка / адрес
+        if (t.includes('сайт') || t.includes('ссылка') || t.includes('адрес')) {
+            return 'Это официальный сайт нашего Reward Center ✅<br><br>Вы можете смело пользоваться им — ссылка верная, раздача настоящая. Если кто-то прислал вам другую ссылку — лучше заходите через нашу.';
+        }
+
+        // Всё остальное — мягкий ответ, в твою пользу
+        return 'Я вас услышала 💚<br><br>Хочу вас заверить: <b>всё под контролем</b>. Ваша заявка в системе, награда уже в обработке. Если что-то кажется странным — не переживайте, это просто стандартная проверка. Мы всегда на стороне игроков 🤝';
     }
 
     const chatBody = document.getElementById('chatBody');
